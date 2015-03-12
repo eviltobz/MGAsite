@@ -26,5 +26,11 @@ namespace MGAsite.Controllers
 
             return View();
         }
+
+        [Authorize]
+        public ActionResult ManageData()
+        {
+            return View();
+        }
     }
 }

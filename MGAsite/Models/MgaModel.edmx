@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MgaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ponies">
+          <Key>
+            <PropertyRef Name="PoniesID" />
+          </Key>
+          <Property Name="PoniesID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PassportID" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="PonyName" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Riders">
+          <Key>
+            <PropertyRef Name="RidersID" />
+          </Key>
+          <Property Name="RidersID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FullName" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Season">
+          <Key>
+            <PropertyRef Name="SeasonID" />
+          </Key>
+          <Property Name="SeasonID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Season" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TeamEvents">
+          <Key>
+            <PropertyRef Name="TeamEventsID" />
+          </Key>
+          <Property Name="TeamEventsID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EventName" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="EventDate" Type="date" Nullable="false" />
+          <Property Name="EventType" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="EventPriority" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Season" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TeamRoster">
+          <Key>
+            <PropertyRef Name="TeamRosterID" />
+          </Key>
+          <Property Name="TeamRosterID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TeamName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Season" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Rider1" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Pony1" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Rider2" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Pony2" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Rider3" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Pony3" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Rider4" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Pony4" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Rider5" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="Pony5" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TeamName" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MgaModelStoreContainer">
+          <EntitySet Name="Ponies" EntityType="Self.Ponies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Riders" EntityType="Self.Riders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Season" EntityType="Self.Season" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TeamEvents" EntityType="Self.TeamEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TeamRoster" EntityType="Self.TeamRoster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MgaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Pony">
+          <Key>
+            <PropertyRef Name="PoniesID" />
+          </Key>
+          <Property Name="PoniesID" Type="Guid" Nullable="false" />
+          <Property Name="PassportID" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="PonyName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Rider">
+          <Key>
+            <PropertyRef Name="RidersID" />
+          </Key>
+          <Property Name="RidersID" Type="Guid" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Season">
+          <Key>
+            <PropertyRef Name="SeasonID" />
+          </Key>
+          <Property Name="SeasonID" Type="Guid" Nullable="false" />
+          <Property Name="Season1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="TeamEvent">
+          <Key>
+            <PropertyRef Name="TeamEventsID" />
+          </Key>
+          <Property Name="TeamEventsID" Type="Guid" Nullable="false" />
+          <Property Name="EventName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EventType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="EventPriority" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Season" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TeamRoster">
+          <Key>
+            <PropertyRef Name="TeamRosterID" />
+          </Key>
+          <Property Name="TeamRosterID" Type="Guid" Nullable="false" />
+          <Property Name="TeamName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Season" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Rider1" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Pony1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Rider2" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Pony2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Rider3" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Pony3" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Rider4" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Pony4" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Rider5" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Pony5" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="Guid" Nullable="false" />
+          <Property Name="TeamName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MgaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ponies" EntityType="Self.Pony" />
+          <EntitySet Name="Riders" EntityType="Self.Rider" />
+          <EntitySet Name="Seasons" EntityType="Self.Season" />
+          <EntitySet Name="TeamEvents" EntityType="Self.TeamEvent" />
+          <EntitySet Name="TeamRosters" EntityType="Self.TeamRoster" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MgaModelStoreContainer" CdmEntityContainer="MgaEntities">
+          <EntitySetMapping Name="Ponies">
+            <EntityTypeMapping TypeName="MgaModel.Pony">
+              <MappingFragment StoreEntitySet="Ponies">
+                <ScalarProperty Name="PoniesID" ColumnName="PoniesID" />
+                <ScalarProperty Name="PassportID" ColumnName="PassportID" />
+                <ScalarProperty Name="PonyName" ColumnName="PonyName" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Riders">
+            <EntityTypeMapping TypeName="MgaModel.Rider">
+              <MappingFragment StoreEntitySet="Riders">
+                <ScalarProperty Name="RidersID" ColumnName="RidersID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seasons">
+            <EntityTypeMapping TypeName="MgaModel.Season">
+              <MappingFragment StoreEntitySet="Season">
+                <ScalarProperty Name="SeasonID" ColumnName="SeasonID" />
+                <ScalarProperty Name="Season1" ColumnName="Season" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamEvents">
+            <EntityTypeMapping TypeName="MgaModel.TeamEvent">
+              <MappingFragment StoreEntitySet="TeamEvents">
+                <ScalarProperty Name="TeamEventsID" ColumnName="TeamEventsID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamRosters">
+            <EntityTypeMapping TypeName="MgaModel.TeamRoster">
+              <MappingFragment StoreEntitySet="TeamRoster">
+                <ScalarProperty Name="TeamRosterID" ColumnName="TeamRosterID" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+                <ScalarProperty Name="Rider1" ColumnName="Rider1" />
+                <ScalarProperty Name="Pony1" ColumnName="Pony1" />
+                <ScalarProperty Name="Rider2" ColumnName="Rider2" />
+                <ScalarProperty Name="Pony2" ColumnName="Pony2" />
+                <ScalarProperty Name="Rider3" ColumnName="Rider3" />
+                <ScalarProperty Name="Pony3" ColumnName="Pony3" />
+                <ScalarProperty Name="Rider4" ColumnName="Rider4" />
+                <ScalarProperty Name="Pony4" ColumnName="Pony4" />
+                <ScalarProperty Name="Rider5" ColumnName="Rider5" />
+                <ScalarProperty Name="Pony5" ColumnName="Pony5" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="MgaModel.Team">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
