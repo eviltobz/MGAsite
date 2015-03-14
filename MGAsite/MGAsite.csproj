@@ -164,6 +164,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PoniesController.cs" />
+    <Compile Include="Controllers\RidersController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -285,6 +287,16 @@
     <Content Include="Views\Ponies\Edit.cshtml" />
     <Content Include="Views\Ponies\Index.cshtml" />
     <Content Include="Views\Home\ManageData.cshtml" />
+    <Content Include="Views\Riders\Create.cshtml" />
+    <Content Include="Views\Riders\Delete.cshtml" />
+    <Content Include="Views\Riders\Details.cshtml" />
+    <Content Include="Views\Riders\Edit.cshtml" />
+    <Content Include="Views\Riders\Index.cshtml" />
+    <Content Include="Views\Teams\Create.cshtml" />
+    <Content Include="Views\Teams\Delete.cshtml" />
+    <Content Include="Views\Teams\Details.cshtml" />
+    <Content Include="Views\Teams\Edit.cshtml" />
+    <Content Include="Views\Teams\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

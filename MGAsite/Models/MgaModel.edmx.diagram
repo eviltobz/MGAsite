@@ -9,8 +9,8 @@
         <EntityTypeShape EntityType="MgaModel.Rider" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MgaModel.Season" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MgaModel.TeamEvent" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MgaModel.TeamRoster" Width="1.5" PointX="4.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MgaModel.Team" Width="1.5" PointX="7.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MgaModel.TeamRoster" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MgaModel.Team" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
