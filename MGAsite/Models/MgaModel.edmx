@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MgaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MgaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Ponies">
           <Key>
             <PropertyRef Name="PoniesID" />
@@ -26,7 +26,7 @@
           <Key>
             <PropertyRef Name="SeasonID" />
           </Key>
-          <Property Name="SeasonID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SeasonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Season" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
@@ -40,7 +40,7 @@
           <Property Name="EventDate" Type="date" Nullable="false" />
           <Property Name="EventType" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="EventPriority" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Season" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="SeasonID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TeamRoster">
           <Key>
@@ -67,6 +67,18 @@
           <Property Name="TeamID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TeamName" Type="nchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <Association Name="FK_TeamEvents_Season">
+          <End Role="Season" Type="Self.Season" Multiplicity="1" />
+          <End Role="TeamEvents" Type="Self.TeamEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonID" />
+            </Principal>
+            <Dependent Role="TeamEvents">
+              <PropertyRef Name="SeasonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MgaModelStoreContainer">
           <EntitySet Name="Ponies" EntityType="Self.Ponies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Riders" EntityType="Self.Riders" Schema="dbo" store:Type="Tables" />
@@ -74,9 +86,12 @@
           <EntitySet Name="TeamEvents" EntityType="Self.TeamEvents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeamRoster" EntityType="Self.TeamRoster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TeamEvents_Season" Association="Self.FK_TeamEvents_Season">
+            <End Role="Season" EntitySet="Season" />
+            <End Role="TeamEvents" EntitySet="TeamEvents" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MgaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -96,26 +111,6 @@
           <Property Name="RidersID" Type="Guid" Nullable="false" />
           <Property Name="FullName" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="Season">
-          <Key>
-            <PropertyRef Name="SeasonID" />
-          </Key>
-          <Property Name="SeasonID" Type="Guid" Nullable="false" />
-          <Property Name="Season1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="TeamEvent">
-          <Key>
-            <PropertyRef Name="TeamEventsID" />
-          </Key>
-          <Property Name="TeamEventsID" Type="Guid" Nullable="false" />
-          <Property Name="EventName" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EventType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="EventPriority" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Season" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="TeamRoster">
           <Key>
@@ -145,12 +140,50 @@
         <EntityContainer Name="MgaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Ponies" EntityType="Self.Pony" />
           <EntitySet Name="Riders" EntityType="Self.Rider" />
-          <EntitySet Name="Seasons" EntityType="Self.Season" />
-          <EntitySet Name="TeamEvents" EntityType="Self.TeamEvent" />
           <EntitySet Name="TeamRosters" EntityType="Self.TeamRoster" />
           <EntitySet Name="Teams" EntityType="Self.Team" />
-        </EntityContainer>
-      </Schema>
+          <EntitySet Name="Seasons" EntityType="MgaModel.Season" />
+          <EntitySet Name="TeamEvents" EntityType="MgaModel.TeamEvent" />
+          <AssociationSet Name="FK_TeamEvents_Season" Association="MgaModel.FK_TeamEvents_Season">
+            <End Role="Season" EntitySet="Seasons" />
+            <End Role="TeamEvent" EntitySet="TeamEvents" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Season">
+          <Key>
+            <PropertyRef Name="SeasonID" />
+          </Key>
+          <Property Name="SeasonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Season1" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="TeamEvents" Relationship="MgaModel.FK_TeamEvents_Season" FromRole="Season" ToRole="TeamEvent" />
+        </EntityType>
+        <EntityType Name="TeamEvent">
+          <Key>
+            <PropertyRef Name="TeamEventsID" />
+          </Key>
+          <Property Name="TeamEventsID" Type="Guid" Nullable="false" />
+          <Property Name="EventName" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EventType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="EventPriority" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SeasonID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Season" Relationship="MgaModel.FK_TeamEvents_Season" FromRole="TeamEvent" ToRole="Season" />
+        </EntityType>
+        <Association Name="FK_TeamEvents_Season">
+          <End Type="MgaModel.Season" Role="Season" Multiplicity="1" />
+          <End Type="MgaModel.TeamEvent" Role="TeamEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Season">
+              <PropertyRef Name="SeasonID" />
+            </Principal>
+            <Dependent Role="TeamEvent">
+              <PropertyRef Name="SeasonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -172,28 +205,6 @@
                 <ScalarProperty Name="RidersID" ColumnName="RidersID" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="DOB" ColumnName="DOB" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Seasons">
-            <EntityTypeMapping TypeName="MgaModel.Season">
-              <MappingFragment StoreEntitySet="Season">
-                <ScalarProperty Name="SeasonID" ColumnName="SeasonID" />
-                <ScalarProperty Name="Season1" ColumnName="Season" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TeamEvents">
-            <EntityTypeMapping TypeName="MgaModel.TeamEvent">
-              <MappingFragment StoreEntitySet="TeamEvents">
-                <ScalarProperty Name="TeamEventsID" ColumnName="TeamEventsID" />
-                <ScalarProperty Name="EventName" ColumnName="EventName" />
-                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
-                <ScalarProperty Name="EventType" ColumnName="EventType" />
-                <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
-                <ScalarProperty Name="Season" ColumnName="Season" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -221,6 +232,28 @@
               <MappingFragment StoreEntitySet="Teams">
                 <ScalarProperty Name="TeamID" ColumnName="TeamID" />
                 <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seasons">
+            <EntityTypeMapping TypeName="MgaModel.Season">
+              <MappingFragment StoreEntitySet="Season">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Season1" ColumnName="Season" />
+                <ScalarProperty Name="SeasonID" ColumnName="SeasonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamEvents">
+            <EntityTypeMapping TypeName="MgaModel.TeamEvent">
+              <MappingFragment StoreEntitySet="TeamEvents">
+                <ScalarProperty Name="SeasonID" ColumnName="SeasonID" />
+                <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="TeamEventsID" ColumnName="TeamEventsID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

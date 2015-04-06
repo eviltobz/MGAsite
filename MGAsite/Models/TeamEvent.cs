@@ -19,6 +19,8 @@ namespace MGAsite.Models
         public System.DateTime EventDate { get; set; }
         public string EventType { get; set; }
         public string EventPriority { get; set; }
-        public string Season { get; set; }
+        public int SeasonID { get; set; }
+    
+        public virtual Season Season { get; set; }
     }
 }

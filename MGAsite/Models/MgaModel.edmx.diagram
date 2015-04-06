@@ -5,13 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f50783f1b5074c76afed1ffdde80c62a" Name="Diagram1">
-        <EntityTypeShape EntityType="MgaModel.Pony" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MgaModel.Rider" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MgaModel.Season" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MgaModel.TeamEvent" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MgaModel.Pony" Width="1.5" PointX="0.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MgaModel.Rider" Width="1.5" PointX="2.75" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MgaModel.TeamRoster" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="MgaModel.Team" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-      </Diagram>
+        <EntityTypeShape EntityType="MgaModel.Team" Width="1.5" PointX="4.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MgaModel.Season" Width="1.5" PointX="0.875" PointY="2.875" />
+        <EntityTypeShape EntityType="MgaModel.TeamEvent" Width="1.5" PointX="3.25" PointY="2.875" />
+        <AssociationConnector Association="MgaModel.FK_TeamEvents_Season" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
