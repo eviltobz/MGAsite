@@ -12,18 +12,16 @@ namespace MGAsite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Season
+    public partial class Event
     {
-        public Season()
-        {
-            this.Events = new HashSet<Event>();
-        }
-    
         public int Id { get; set; }
-        public string Season1 { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
+        public string EventName { get; set; }
+        public System.DateTime EventDate { get; set; }
+        public string EventType { get; set; }
+        public string EventPriority { get; set; }
+        public int SeasonID { get; set; }
     
-        public virtual ICollection<Event> Events { get; set; }
+        public virtual Season Season { get; set; }
+        public virtual EventTeamEntry EventTeamEntry { get; set; }
     }
 }

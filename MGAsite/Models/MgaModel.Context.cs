@@ -25,11 +25,12 @@ namespace MGAsite.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<EventRiderEntry> EventRiderEntries { get; set; }
+        public virtual DbSet<EventTeamEntry> EventTeamEntries { get; set; }
         public virtual DbSet<Pony> Ponies { get; set; }
         public virtual DbSet<Rider> Riders { get; set; }
-        public virtual DbSet<TeamRoster> TeamRosters { get; set; }
-        public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<Season> Seasons { get; set; }
-        public virtual DbSet<TeamEvent> TeamEvents { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
     }
 }

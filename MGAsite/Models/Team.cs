@@ -14,7 +14,9 @@ namespace MGAsite.Models
     
     public partial class Team
     {
-        public System.Guid TeamID { get; set; }
+        public int Id { get; set; }
         public string TeamName { get; set; }
+    
+        public virtual EventTeamEntry EventTeamEntry { get; set; }
     }
 }

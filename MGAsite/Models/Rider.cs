@@ -14,8 +14,15 @@ namespace MGAsite.Models
     
     public partial class Rider
     {
-        public System.Guid RidersID { get; set; }
+        public Rider()
+        {
+            this.EventRiderEntries = new HashSet<EventRiderEntry>();
+        }
+    
+        public int Id { get; set; }
         public string FullName { get; set; }
         public System.DateTime DOB { get; set; }
+    
+        public virtual ICollection<EventRiderEntry> EventRiderEntries { get; set; }
     }
 }

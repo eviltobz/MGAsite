@@ -14,9 +14,16 @@ namespace MGAsite.Models
     
     public partial class Pony
     {
-        public System.Guid PoniesID { get; set; }
+        public Pony()
+        {
+            this.EventRiderEntries = new HashSet<EventRiderEntry>();
+        }
+    
+        public int Id { get; set; }
         public string PassportID { get; set; }
-        public string PonyName { get; set; }
+        public string Name { get; set; }
         public System.DateTime DOB { get; set; }
+    
+        public virtual ICollection<EventRiderEntry> EventRiderEntries { get; set; }
     }
 }

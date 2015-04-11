@@ -12,15 +12,16 @@ namespace MGAsite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TeamEvent
+    public partial class EventRiderEntry
     {
-        public System.Guid TeamEventsID { get; set; }
-        public string EventName { get; set; }
-        public System.DateTime EventDate { get; set; }
-        public string EventType { get; set; }
-        public string EventPriority { get; set; }
-        public int SeasonID { get; set; }
+        public int Id { get; set; }
+        public int EventTeamEntryId { get; set; }
+        public int RiderId { get; set; }
+        public int PonyId { get; set; }
+        public Nullable<bool> Paticipated { get; set; }
     
-        public virtual Season Season { get; set; }
+        public virtual EventTeamEntry EventTeamEntry { get; set; }
+        public virtual Pony Pony { get; set; }
+        public virtual Rider Rider { get; set; }
     }
 }
