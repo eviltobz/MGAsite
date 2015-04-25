@@ -14,9 +14,14 @@ namespace MGAsite.Models
     
     public partial class Team
     {
+        public Team()
+        {
+            this.EventTeamEntries = new HashSet<EventTeamEntry>();
+        }
+    
         public int Id { get; set; }
         public string TeamName { get; set; }
     
-        public virtual EventTeamEntry EventTeamEntry { get; set; }
+        public virtual ICollection<EventTeamEntry> EventTeamEntries { get; set; }
     }
 }

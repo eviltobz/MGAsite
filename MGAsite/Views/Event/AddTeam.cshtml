@@ -1,0 +1,107 @@
+﻿@model MGAsite.Models.ParticipatingTeam
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@(Model.Team.TeamName) in @(Model.Event.EventName) </h4>
+        <hr />
+        <table cellpadding="3">
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th>Rider</th>
+                    <th>Pony</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        @Html.DropDownListFor(model=>model.Rider1Id, Model.AvailableRiders, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Rider1Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>                        
+                        @Html.DropDownListFor(model => model.Pony1Id, Model.AvailablePonies, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pony1Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Rider2Id, Model.AvailableRiders, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Rider2Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Pony2Id, Model.AvailablePonies, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pony2Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Rider3Id, Model.AvailableRiders, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Rider3Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Pony3Id, Model.AvailablePonies, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pony3Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Rider4Id, Model.AvailableRiders, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Rider4Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Pony4Id, Model.AvailablePonies, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pony4Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Rider5Id, Model.AvailableRiders, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Rider5Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.Pony5Id, Model.AvailablePonies, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pony5Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="AddTeam" class="btn btn-default" /></td>
+                    <td>@Html.ActionLink("Cancel", "Participants", new { id = Model.Event.Id })</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

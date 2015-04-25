@@ -20,7 +20,7 @@ namespace MGAsite.Models
         }
     
         public int Id { get; set; }
-        public string Season1 { get; set; }
+        public string SeasonName { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
     

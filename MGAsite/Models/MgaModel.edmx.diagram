@@ -7,17 +7,18 @@
       <Diagram DiagramId="f50783f1b5074c76afed1ffdde80c62a" Name="Diagram1" ZoomLevel="94">
         <EntityTypeShape EntityType="MgaModel.Event" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="MgaModel.EventRiderEntry" Width="1.5" PointX="7.5" PointY="1" />
-        <EntityTypeShape EntityType="MgaModel.EventTeamEntry" Width="1.5" PointX="5.25" PointY="1" />
         <EntityTypeShape EntityType="MgaModel.Pony" Width="1.5" PointX="9.75" PointY="1" />
-        <EntityTypeShape EntityType="MgaModel.Rider" Width="1.5" PointX="9.75" PointY="3.25" />
+        <EntityTypeShape EntityType="MgaModel.Rider" Width="1.5" PointX="10.125" PointY="3.25" />
         <EntityTypeShape EntityType="MgaModel.Season" Width="1.5" PointX="0.75" PointY="1.25" />
-        <EntityTypeShape EntityType="MgaModel.Team" Width="1.5" PointX="5.25" PointY="3.875" />
+        <EntityTypeShape EntityType="MgaModel.Team" Width="1.5" PointX="5.25" PointY="4.25" />
         <AssociationConnector Association="MgaModel.FK_Event_Season" />
-        <AssociationConnector Association="MgaModel.FK_EventTeamEntry_Event" />
-        <AssociationConnector Association="MgaModel.FK_EventRiderEntry_EventTeamEntry" />
         <AssociationConnector Association="MgaModel.FK_EventRiderEntry_Pony" />
-        <AssociationConnector Association="MgaModel.FK_EventRiderEntry_Rider" />
+        <AssociationConnector Association="MgaModel.FK_EventRiderEntry_Rider" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="MgaModel.EventTeamEntry" Width="1.5" PointX="5.125" PointY="1" />
+        <AssociationConnector Association="MgaModel.FK_EventRiderEntry_EventTeamEntry" />
         <AssociationConnector Association="MgaModel.FK_EventTeamEntry_Team" />
+        <AssociationConnector Association="MgaModel.FK_EventTeamEntry_Event" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

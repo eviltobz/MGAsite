@@ -14,6 +14,11 @@ namespace MGAsite.Models
     
     public partial class Event
     {
+        public Event()
+        {
+            this.EventTeamEntries = new HashSet<EventTeamEntry>();
+        }
+    
         public int Id { get; set; }
         public string EventName { get; set; }
         public System.DateTime EventDate { get; set; }
@@ -22,6 +27,6 @@ namespace MGAsite.Models
         public int SeasonID { get; set; }
     
         public virtual Season Season { get; set; }
-        public virtual EventTeamEntry EventTeamEntry { get; set; }
+        public virtual ICollection<EventTeamEntry> EventTeamEntries { get; set; }
     }
 }

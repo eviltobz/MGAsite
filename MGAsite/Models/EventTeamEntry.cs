@@ -24,8 +24,8 @@ namespace MGAsite.Models
         public int EventId { get; set; }
         public Nullable<int> Points { get; set; }
     
-        public virtual Event Event { get; set; }
         public virtual ICollection<EventRiderEntry> EventRiderEntries { get; set; }
         public virtual Team Team { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

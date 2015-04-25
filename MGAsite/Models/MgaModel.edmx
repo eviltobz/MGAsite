@@ -118,25 +118,25 @@
         </Association>
         <Association Name="FK_EventTeamEntry_Event">
           <End Role="Event" Type="Self.Event" Multiplicity="1" />
-          <End Role="EventTeamEntry" Type="Self.EventTeamEntry" Multiplicity="0..1" />
+          <End Role="EventTeamEntry" Type="Self.EventTeamEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Event">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EventTeamEntry">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EventTeamEntry_Team">
           <End Role="Team" Type="Self.Team" Multiplicity="1" />
-          <End Role="EventTeamEntry" Type="Self.EventTeamEntry" Multiplicity="0..1" />
+          <End Role="EventTeamEntry" Type="Self.EventTeamEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EventTeamEntry">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="TeamId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -180,7 +180,6 @@
         <EntityContainer Name="MgaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Events" EntityType="MgaModel.Event" />
           <EntitySet Name="EventRiderEntries" EntityType="MgaModel.EventRiderEntry" />
-          <EntitySet Name="EventTeamEntries" EntityType="MgaModel.EventTeamEntry" />
           <EntitySet Name="Ponies" EntityType="MgaModel.Pony" />
           <EntitySet Name="Riders" EntityType="MgaModel.Rider" />
           <EntitySet Name="Seasons" EntityType="MgaModel.Season" />
@@ -188,14 +187,6 @@
           <AssociationSet Name="FK_Event_Season" Association="MgaModel.FK_Event_Season">
             <End Role="Season" EntitySet="Seasons" />
             <End Role="Event" EntitySet="Events" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EventTeamEntry_Event" Association="MgaModel.FK_EventTeamEntry_Event">
-            <End Role="Event" EntitySet="Events" />
-            <End Role="EventTeamEntry" EntitySet="EventTeamEntries" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EventRiderEntry_EventTeamEntry" Association="MgaModel.FK_EventRiderEntry_EventTeamEntry">
-            <End Role="EventTeamEntry" EntitySet="EventTeamEntries" />
-            <End Role="EventRiderEntry" EntitySet="EventRiderEntries" />
           </AssociationSet>
           <AssociationSet Name="FK_EventRiderEntry_Pony" Association="MgaModel.FK_EventRiderEntry_Pony">
             <End Role="Pony" EntitySet="Ponies" />
@@ -205,11 +196,20 @@
             <End Role="Rider" EntitySet="Riders" />
             <End Role="EventRiderEntry" EntitySet="EventRiderEntries" />
           </AssociationSet>
+          <EntitySet Name="EventTeamEntries" EntityType="MgaModel.EventTeamEntry" />
+          <AssociationSet Name="FK_EventRiderEntry_EventTeamEntry" Association="MgaModel.FK_EventRiderEntry_EventTeamEntry">
+            <End Role="EventTeamEntry" EntitySet="EventTeamEntries" />
+            <End Role="EventRiderEntry" EntitySet="EventRiderEntries" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventTeamEntry_Team" Association="MgaModel.FK_EventTeamEntry_Team">
             <End Role="Team" EntitySet="Teams" />
             <End Role="EventTeamEntry" EntitySet="EventTeamEntries" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_EventTeamEntry_Event" Association="MgaModel.FK_EventTeamEntry_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="EventTeamEntry" EntitySet="EventTeamEntries" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="Id" />
@@ -221,7 +221,7 @@
           <Property Name="EventPriority" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="SeasonID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Season" Relationship="MgaModel.FK_Event_Season" FromRole="Event" ToRole="Season" />
-          <NavigationProperty Name="EventTeamEntry" Relationship="MgaModel.FK_EventTeamEntry_Event" FromRole="Event" ToRole="EventTeamEntry" />
+          <NavigationProperty Name="EventTeamEntries" Relationship="MgaModel.FK_EventTeamEntry_Event" FromRole="Event" ToRole="EventTeamEntry" />
         </EntityType>
         <EntityType Name="EventRiderEntry">
           <Key>
@@ -232,21 +232,9 @@
           <Property Name="RiderId" Type="Int32" Nullable="false" />
           <Property Name="PonyId" Type="Int32" Nullable="false" />
           <Property Name="Paticipated" Type="Boolean" />
-          <NavigationProperty Name="EventTeamEntry" Relationship="MgaModel.FK_EventRiderEntry_EventTeamEntry" FromRole="EventRiderEntry" ToRole="EventTeamEntry" />
           <NavigationProperty Name="Pony" Relationship="MgaModel.FK_EventRiderEntry_Pony" FromRole="EventRiderEntry" ToRole="Pony" />
           <NavigationProperty Name="Rider" Relationship="MgaModel.FK_EventRiderEntry_Rider" FromRole="EventRiderEntry" ToRole="Rider" />
-        </EntityType>
-        <EntityType Name="EventTeamEntry">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamId" Type="Int32" Nullable="false" />
-          <Property Name="EventId" Type="Int32" Nullable="false" />
-          <Property Name="Points" Type="Int32" />
-          <NavigationProperty Name="Event" Relationship="MgaModel.FK_EventTeamEntry_Event" FromRole="EventTeamEntry" ToRole="Event" />
-          <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_EventTeamEntry" FromRole="EventTeamEntry" ToRole="EventRiderEntry" />
-          <NavigationProperty Name="Team" Relationship="MgaModel.FK_EventTeamEntry_Team" FromRole="EventTeamEntry" ToRole="Team" />
+          <NavigationProperty Name="EventTeamEntry" Relationship="MgaModel.FK_EventRiderEntry_EventTeamEntry" FromRole="EventRiderEntry" ToRole="EventTeamEntry" />
         </EntityType>
         <EntityType Name="Pony">
           <Key>
@@ -272,7 +260,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Season1" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SeasonName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Events" Relationship="MgaModel.FK_Event_Season" FromRole="Season" ToRole="Event" />
@@ -283,7 +271,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TeamName" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="EventTeamEntry" Relationship="MgaModel.FK_EventTeamEntry_Team" FromRole="Team" ToRole="EventTeamEntry" />
+          <NavigationProperty Name="EventTeamEntries" Relationship="MgaModel.FK_EventTeamEntry_Team" FromRole="Team" ToRole="EventTeamEntry" />
         </EntityType>
         <Association Name="FK_Event_Season">
           <End Type="MgaModel.Season" Role="Season" Multiplicity="1" />
@@ -294,30 +282,6 @@
             </Principal>
             <Dependent Role="Event">
               <PropertyRef Name="SeasonID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EventTeamEntry_Event">
-          <End Type="MgaModel.Event" Role="Event" Multiplicity="1" />
-          <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Event">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EventTeamEntry">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EventRiderEntry_EventTeamEntry">
-          <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="1" />
-          <End Type="MgaModel.EventRiderEntry" Role="EventRiderEntry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EventTeamEntry">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EventRiderEntry">
-              <PropertyRef Name="EventTeamEntryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -345,15 +309,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EventTeamEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="Points" Type="Int32" />
+          <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_EventTeamEntry" FromRole="EventTeamEntry" ToRole="EventRiderEntry" />
+          <NavigationProperty Name="Team" Relationship="MgaModel.FK_EventTeamEntry_Team" FromRole="EventTeamEntry" ToRole="Team" />
+          <NavigationProperty Name="Event" Relationship="MgaModel.FK_EventTeamEntry_Event" FromRole="EventTeamEntry" ToRole="Event" />
+        </EntityType>
+        <Association Name="FK_EventRiderEntry_EventTeamEntry">
+          <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="1" />
+          <End Type="MgaModel.EventRiderEntry" Role="EventRiderEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTeamEntry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventRiderEntry">
+              <PropertyRef Name="EventTeamEntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EventTeamEntry_Team">
           <End Type="MgaModel.Team" Role="Team" Multiplicity="1" />
-          <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="0..1" />
+          <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EventTeamEntry">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventTeamEntry_Event">
+          <End Type="MgaModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
               <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventTeamEntry">
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -386,16 +386,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EventTeamEntries">
-            <EntityTypeMapping TypeName="MgaModel.EventTeamEntry">
-              <MappingFragment StoreEntitySet="EventTeamEntry">
-                <ScalarProperty Name="Points" ColumnName="Points" />
-                <ScalarProperty Name="EventId" ColumnName="EventId" />
-                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Ponies">
             <EntityTypeMapping TypeName="MgaModel.Pony">
               <MappingFragment StoreEntitySet="Pony">
@@ -420,7 +410,7 @@
               <MappingFragment StoreEntitySet="Season">
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Season1" ColumnName="Season" />
+                <ScalarProperty Name="SeasonName" ColumnName="Season" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -429,6 +419,16 @@
             <EntityTypeMapping TypeName="MgaModel.Team">
               <MappingFragment StoreEntitySet="Team">
                 <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTeamEntries">
+            <EntityTypeMapping TypeName="MgaModel.EventTeamEntry">
+              <MappingFragment StoreEntitySet="EventTeamEntry">
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

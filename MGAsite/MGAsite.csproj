@@ -163,18 +163,30 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\EventRiderEntryController.cs" />
+    <Compile Include="Controllers\EventTeamEntryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PoniesController.cs" />
-    <Compile Include="Controllers\RidersController.cs" />
-    <Compile Include="Controllers\SeasonsController.cs" />
-    <Compile Include="Controllers\TeamEventsController.cs" />
-    <Compile Include="Controllers\TeamsController.cs" />
+    <Compile Include="Controllers\PonyController.cs" />
+    <Compile Include="Controllers\RiderController.cs" />
+    <Compile Include="Controllers\SeasonController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Event.cs">
+      <DependentUpon>MgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventRiderEntry.cs">
+      <DependentUpon>MgaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventTeamEntry.cs">
+      <DependentUpon>MgaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MgaModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -201,12 +213,6 @@
       <DependentUpon>MgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Team.cs">
-      <DependentUpon>MgaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TeamEvent.cs">
-      <DependentUpon>MgaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TeamRoster.cs">
       <DependentUpon>MgaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -286,32 +292,45 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Ponies\Create.cshtml" />
-    <Content Include="Views\Ponies\Delete.cshtml" />
-    <Content Include="Views\Ponies\Details.cshtml" />
-    <Content Include="Views\Ponies\Edit.cshtml" />
-    <Content Include="Views\Ponies\Index.cshtml" />
     <Content Include="Views\Home\ManageData.cshtml" />
-    <Content Include="Views\Riders\Create.cshtml" />
-    <Content Include="Views\Riders\Delete.cshtml" />
-    <Content Include="Views\Riders\Details.cshtml" />
-    <Content Include="Views\Riders\Edit.cshtml" />
-    <Content Include="Views\Riders\Index.cshtml" />
-    <Content Include="Views\Teams\Create.cshtml" />
-    <Content Include="Views\Teams\Delete.cshtml" />
-    <Content Include="Views\Teams\Details.cshtml" />
-    <Content Include="Views\Teams\Edit.cshtml" />
-    <Content Include="Views\Teams\Index.cshtml" />
-    <Content Include="Views\Seasons\Create.cshtml" />
-    <Content Include="Views\Seasons\Delete.cshtml" />
-    <Content Include="Views\Seasons\Details.cshtml" />
-    <Content Include="Views\Seasons\Edit.cshtml" />
-    <Content Include="Views\Seasons\Index.cshtml" />
-    <Content Include="Views\TeamEvents\Create.cshtml" />
-    <Content Include="Views\TeamEvents\Delete.cshtml" />
-    <Content Include="Views\TeamEvents\Details.cshtml" />
-    <Content Include="Views\TeamEvents\Edit.cshtml" />
-    <Content Include="Views\TeamEvents\Index.cshtml" />
+    <Content Include="Views\Rider\Create.cshtml" />
+    <Content Include="Views\Rider\Delete.cshtml" />
+    <Content Include="Views\Rider\Details.cshtml" />
+    <Content Include="Views\Rider\Edit.cshtml" />
+    <Content Include="Views\Rider\Index.cshtml" />
+    <Content Include="Views\Pony\Create.cshtml" />
+    <Content Include="Views\Pony\Delete.cshtml" />
+    <Content Include="Views\Pony\Details.cshtml" />
+    <Content Include="Views\Pony\Edit.cshtml" />
+    <Content Include="Views\Pony\Index.cshtml" />
+    <Content Include="Views\Season\Create.cshtml" />
+    <Content Include="Views\Season\Delete.cshtml" />
+    <Content Include="Views\Season\Details.cshtml" />
+    <Content Include="Views\Season\Edit.cshtml" />
+    <Content Include="Views\Season\Index.cshtml" />
+    <Content Include="Views\Team\Create.cshtml" />
+    <Content Include="Views\Team\Delete.cshtml" />
+    <Content Include="Views\Team\Details.cshtml" />
+    <Content Include="Views\Team\Edit.cshtml" />
+    <Content Include="Views\Team\Index.cshtml" />
+    <Content Include="Views\Event\Create.cshtml" />
+    <Content Include="Views\Event\Delete.cshtml" />
+    <Content Include="Views\Event\Details.cshtml" />
+    <Content Include="Views\Event\Edit.cshtml" />
+    <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\EventTeamEntry\Create.cshtml" />
+    <Content Include="Views\EventTeamEntry\Delete.cshtml" />
+    <Content Include="Views\EventTeamEntry\Details.cshtml" />
+    <Content Include="Views\EventTeamEntry\Edit.cshtml" />
+    <Content Include="Views\EventTeamEntry\Index.cshtml" />
+    <Content Include="Views\EventRiderEntry\Create.cshtml" />
+    <Content Include="Views\EventRiderEntry\Delete.cshtml" />
+    <Content Include="Views\EventRiderEntry\Details.cshtml" />
+    <Content Include="Views\EventRiderEntry\Edit.cshtml" />
+    <Content Include="Views\EventRiderEntry\Index.cshtml" />
+    <Content Include="Views\Event\Participants.cshtml" />
+    <Content Include="Views\Event\AddTeam.cshtml" />
+    <Content Include="Views\Event\DeleteParticipant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

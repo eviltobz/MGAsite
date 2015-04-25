@@ -1,0 +1,115 @@
+﻿@model MGAsite.Models.EventParticipantsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.Event.EventName) @Html.DisplayFor(model => model.Event.Season.SeasonName) Participants</h2>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EventName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EventDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EventType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EventPriority)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventPriority)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.Season.SeasonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.Season.SeasonName)
+        </dd>
+
+    </dl>
+</div>
+@if (Model.ParticipatingTeams.Any())
+{
+    <hr />
+    <h3>Participating Teams</h3>
+    <table cellpadding="5">
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Rider 1</th>
+                <th>Rider 2</th>
+                <th>Rider 3</th>
+                <th>Rider 4</th>
+                <th>Rider 5</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.ParticipatingTeams)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Team.TeamName)
+                </td>
+                @foreach (var entrant in item.EventRiderEntries)
+                {
+                    <td>
+                        @Html.DisplayFor(modelEntrant => entrant.Rider.FullName) / @Html.DisplayFor(modelEntrant => entrant.Pony.Name)
+                    </td>
+                }
+                @for (int i = 0; i < (5 - item.EventRiderEntries.Count()); i++)
+                {
+                    <td>N/A</td>
+                }
+                <td>
+                    | @Html.ActionLink("Edit", "Edit", "EventTeamEntry", new { id = item.Id }, null) 
+                    | @Html.ActionLink("Delete", "DeleteParticipant", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+@if (Model.OtherTeams.Any())
+{
+    <hr />
+    <h3>Add Teams</h3>
+    <table cellpadding="5">
+        @foreach (var item in Model.OtherTeams)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamName)
+                </td>
+                <td>
+                    | @Html.ActionLink("Add", "AddTeam", new { eventId = Model.Event.Id, teamId = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+<hr />
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
