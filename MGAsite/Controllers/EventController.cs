@@ -92,6 +92,18 @@ namespace MGAsite.Controllers
             return View(model);
         }
 
+        public ActionResult Results(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var model = new Results();
+            model.Event = db.Events.Find(id);
+
+            return View(model);
+        }
+
 
         // GET: Event/Details/5
         public ActionResult Details(int? id)

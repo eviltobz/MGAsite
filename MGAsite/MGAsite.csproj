@@ -331,6 +331,7 @@
     <Content Include="Views\Event\Participants.cshtml" />
     <Content Include="Views\Event\AddTeam.cshtml" />
     <Content Include="Views\Event\DeleteParticipant.cshtml" />
+    <Content Include="Views\Event\Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -41,5 +41,17 @@ namespace MGAsite.Models
         public int? Pony5Id { get; set; }
     }
     
+    public class Results
+    {
+        public Event Event { get; set; }
+
+        public int EventTeamEntryId { get; set; }
+        public int Points { get; set; }
+        public bool Rider1Participated { get; set; }
+        public bool Rider2Participated { get; set; }
+        public bool Rider3Participated { get; set; }
+        public bool Rider4Participated { get; set; }
+        public bool Rider5Participated { get; set; }
+    }
 
 }
