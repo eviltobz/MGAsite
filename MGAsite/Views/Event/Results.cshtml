@@ -1,10 +1,10 @@
-﻿@model List<MGAsite.Models.TeamEntryResult>
+﻿@model MGAsite.Models.EventResults
 
 @{
     ViewBag.Title = "Results";
 }
 
-<h2>Results</h2>
+<h2>@Html.DisplayFor(model => model.Event.EventName) @Html.DisplayFor(model => model.Event.Season.SeasonName) Results</h2>
 
 @using (Html.BeginForm())
 {
@@ -24,40 +24,40 @@
             </tr>
         </thead>
 
-        @for (int i = 0; i < Model.Count; i++ )
+        @for (int i = 0; i < Model.Teams.Count; i++ )
         {
         <tr>
             <td>
-                @Html.HiddenFor(modelItem => Model[i].EventTeamEntryId)
-                @Model[i].TeamName
+                @Html.HiddenFor(modelItem => Model.Teams[i].EventTeamEntryId)
+                @Model.Teams[i].TeamName
             </td>
 
             <td>
-                @Html.EditorFor(modelItem => Model[i].Rider1Participated)
-                @Model[i].Rider1Name
+                @Html.EditorFor(modelItem => Model.Teams[i].Rider1Participated)
+                @Model.Teams[i].Rider1Name
             </td>
             <td>
-                @Html.EditorFor(modelItem => Model[i].Rider2Participated)
-                @Model[i].Rider2Name
+                @Html.EditorFor(modelItem => Model.Teams[i].Rider2Participated)
+                @Model.Teams[i].Rider2Name
             </td>
             <td>
-                @Html.EditorFor(modelItem => Model[i].Rider3Participated)
-                @Model[i].Rider3Name
+                @Html.EditorFor(modelItem => Model.Teams[i].Rider3Participated)
+                @Model.Teams[i].Rider3Name
             </td>
             <td>
-                @Html.EditorFor(modelItem => Model[i].Rider4Participated)
-                @Model[i].Rider4Name
+                @Html.EditorFor(modelItem => Model.Teams[i].Rider4Participated)
+                @Model.Teams[i].Rider4Name
             </td>
             <td>
-                @Html.EditorFor(modelItem => Model[i].Rider5Participated)
-                @Model[i].Rider5Name
+                @Html.EditorFor(modelItem => Model.Teams[i].Rider5Participated)
+                @Model.Teams[i].Rider5Name
             </td>
 
 
             <td>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => Model[i].Points, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => Model[i].Points, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => Model.Teams[i].Points, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => Model.Teams[i].Points, "", new { @class = "text-danger" })
                 </div>
             </td>
         </tr>

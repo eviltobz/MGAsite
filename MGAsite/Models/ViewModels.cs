@@ -57,5 +57,10 @@ namespace MGAsite.Models
         public string Rider5Name { get; set; }
         public bool Rider5Participated { get; set; }
     }
+    public class EventResults
+    {
+        public Event Event { get; set; }
+        public List<TeamEntryResult> Teams { get; set; }
+    }
 
 }

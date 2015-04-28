@@ -98,7 +98,8 @@ namespace MGAsite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var model = new List<TeamEntryResult>();
+            var model = new EventResults();
+            model.Teams= new List<TeamEntryResult>();
             var e = db.Events.Find(id);
             
             foreach(var entry in e.EventTeamEntries.OrderBy(te=>te.Team.TeamName))
@@ -120,18 +121,18 @@ namespace MGAsite.Controllers
                 line.Rider4Name = riders.ElementAtOrDefault(3).Rider.FullName;
                 line.Rider5Participated = riders.ElementAtOrDefault(4).Participated.GetValueOrDefault(true);
                 line.Rider5Name = riders.ElementAtOrDefault(4).Rider.FullName;
-                model.Add(line);
+                model.Teams.Add(line);
             }
 
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Results(List<TeamEntryResult> model)
+        public ActionResult Results(EventResults model)
         {
             if (ModelState.IsValid)
             {
-                foreach(var line in model)
+                foreach(var line in model.Teams)
                 {
                     var entry = db.EventTeamEntries.Find(line.EventTeamEntryId);
                     entry.Points = line.Points;
@@ -143,7 +144,7 @@ namespace MGAsite.Controllers
                     riders.ElementAt(4).Participated = line.Rider5Participated;
                 }
                 db.SaveChanges();
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             //ViewBag.TeamId = new SelectList(db.Teams, "Id", "TeamName", model.TeamId);
