@@ -24,7 +24,7 @@
           <Property Name="EventTeamEntryId" Type="int" Nullable="false" />
           <Property Name="RiderId" Type="int" Nullable="false" />
           <Property Name="PonyId" Type="int" Nullable="false" />
-          <Property Name="Paticipated" Type="bit" />
+          <Property Name="Participated" Type="bit" />
         </EntityType>
         <EntityType Name="EventTeamEntry">
           <Key>
@@ -231,10 +231,10 @@
           <Property Name="EventTeamEntryId" Type="Int32" Nullable="false" />
           <Property Name="RiderId" Type="Int32" Nullable="false" />
           <Property Name="PonyId" Type="Int32" Nullable="false" />
-          <Property Name="Paticipated" Type="Boolean" />
           <NavigationProperty Name="Pony" Relationship="MgaModel.FK_EventRiderEntry_Pony" FromRole="EventRiderEntry" ToRole="Pony" />
           <NavigationProperty Name="Rider" Relationship="MgaModel.FK_EventRiderEntry_Rider" FromRole="EventRiderEntry" ToRole="Rider" />
           <NavigationProperty Name="EventTeamEntry" Relationship="MgaModel.FK_EventRiderEntry_EventTeamEntry" FromRole="EventRiderEntry" ToRole="EventTeamEntry" />
+          <Property Name="Participated" Type="Boolean" />
         </EntityType>
         <EntityType Name="Pony">
           <Key>
@@ -378,7 +378,7 @@
           <EntitySetMapping Name="EventRiderEntries">
             <EntityTypeMapping TypeName="MgaModel.EventRiderEntry">
               <MappingFragment StoreEntitySet="EventRiderEntry">
-                <ScalarProperty Name="Paticipated" ColumnName="Paticipated" />
+                <ScalarProperty Name="Participated" ColumnName="Participated" />
                 <ScalarProperty Name="PonyId" ColumnName="PonyId" />
                 <ScalarProperty Name="RiderId" ColumnName="RiderId" />
                 <ScalarProperty Name="EventTeamEntryId" ColumnName="EventTeamEntryId" />

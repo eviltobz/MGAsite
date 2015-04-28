@@ -1,55 +1,75 @@
-﻿@model MGAsite.Models.Results
+﻿@model List<MGAsite.Models.TeamEntryResult>
 
 @{
     ViewBag.Title = "Results";
 }
 
-<h2>@Html.DisplayFor(model => model.Event.EventName) @Html.DisplayFor(model => model.Event.Season.SeasonName) Results</h2>
+<h2>Results</h2>
 
-
-<hr />
-<h3>Participating Teams</h3>
-<table cellpadding="5">
-    <thead>
-        <tr>
-            <th>Team</th>
-            <th>Rider 1</th>
-            <th>Rider 2</th>
-            <th>Rider 3</th>
-            <th>Rider 4</th>
-            <th>Rider 5</th>
-            <th>Score</th>
-        </tr>
-    </thead>
-    @foreach (var item in Model.Event.EventTeamEntries)
-    {
-        using (Html.BeginForm())
-        {
-            var entrants = item.EventRiderEntries.OrderBy(e => e.Id); 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <h3>Participating Teams</h3>
+    <table cellpadding="5">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Team.TeamName)
-                    @Html.HiddenFor(modelItem=>item.Id)
-                </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => entrants.ElementAt(0).Rider.FullName) / @Html.DisplayFor(modelItem => entrants.ElementAt(0).Pony.Name)
-                        @Html.EditorFor(modelItem => entrants.ElementAt(0).Participated)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => entrants.ElementAt(1).Rider.FullName) / @Html.DisplayFor(modelItem => entrants.ElementAt(1).Pony.Name)
-                        @Html.EditorFor(modelItem => entrants.ElementAt(1).Participated)
-                    </td>
-                <td>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => Model.Points, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => Model.Points, "", new { @class = "text-danger" })
-                    </div></td>
+                <th>Team</th>
+                <th>Rider 1</th>
+                <th>Rider 2</th>
+                <th>Rider 3</th>
+                <th>Rider 4</th>
+                <th>Rider 5</th>
+                <th>Score</th>
             </tr>
-        }
-    }
-</table>
+        </thead>
 
-<hr />
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        @for (int i = 0; i < Model.Count; i++ )
+        {
+        <tr>
+            <td>
+                @Html.HiddenFor(modelItem => Model[i].EventTeamEntryId)
+                @Model[i].TeamName
+            </td>
+
+            <td>
+                @Html.EditorFor(modelItem => Model[i].Rider1Participated)
+                @Model[i].Rider1Name
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => Model[i].Rider2Participated)
+                @Model[i].Rider2Name
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => Model[i].Rider3Participated)
+                @Model[i].Rider3Name
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => Model[i].Rider4Participated)
+                @Model[i].Rider4Name
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => Model[i].Rider5Participated)
+                @Model[i].Rider5Name
+            </td>
+
+
+            <td>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => Model[i].Points, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => Model[i].Points, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        }
+    </table>
+
+    <hr />
+    <p>
+        <div class="form-actions no-color">
+            <input type="submit" value="Save" class="btn btn-default" /> |
+            @Html.ActionLink("Cancel", "Index")
+        </div>
+    </p>
+
+}

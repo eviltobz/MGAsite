@@ -98,12 +98,58 @@ namespace MGAsite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var model = new Results();
-            model.Event = db.Events.Find(id);
+            var model = new List<TeamEntryResult>();
+            var e = db.Events.Find(id);
+            
+            foreach(var entry in e.EventTeamEntries.OrderBy(te=>te.Team.TeamName))
+            {
+                var line = new TeamEntryResult();
+                line.EventTeamEntryId = entry.Id;
+                line.TeamName = entry.Team.TeamName;
+                line.Points = entry.Points.GetValueOrDefault();
+                
+                var riders = entry.EventRiderEntries.OrderBy(er => er.Id);
+
+                line.Rider1Participated = riders.ElementAtOrDefault(0).Participated.GetValueOrDefault(true);
+                line.Rider1Name = riders.ElementAtOrDefault(0).Rider.FullName;
+                line.Rider2Participated = riders.ElementAtOrDefault(1).Participated.GetValueOrDefault(true);
+                line.Rider2Name = riders.ElementAtOrDefault(1).Rider.FullName;
+                line.Rider3Participated = riders.ElementAtOrDefault(2).Participated.GetValueOrDefault(true);
+                line.Rider3Name = riders.ElementAtOrDefault(2).Rider.FullName;
+                line.Rider4Participated = riders.ElementAtOrDefault(3).Participated.GetValueOrDefault(true);
+                line.Rider4Name = riders.ElementAtOrDefault(3).Rider.FullName;
+                line.Rider5Participated = riders.ElementAtOrDefault(4).Participated.GetValueOrDefault(true);
+                line.Rider5Name = riders.ElementAtOrDefault(4).Rider.FullName;
+                model.Add(line);
+            }
 
             return View(model);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Results(List<TeamEntryResult> model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach(var line in model)
+                {
+                    var entry = db.EventTeamEntries.Find(line.EventTeamEntryId);
+                    entry.Points = line.Points;
+                    var riders = entry.EventRiderEntries.OrderBy(er => er.Id);
+                    riders.ElementAt(0).Participated = line.Rider1Participated;
+                    riders.ElementAt(1).Participated = line.Rider2Participated;
+                    riders.ElementAt(2).Participated = line.Rider3Participated;
+                    riders.ElementAt(3).Participated = line.Rider4Participated;
+                    riders.ElementAt(4).Participated = line.Rider5Participated;
+                }
+                db.SaveChanges();
+                RedirectToAction("Index");
+            }
 
+            //ViewBag.TeamId = new SelectList(db.Teams, "Id", "TeamName", model.TeamId);
+            //ViewBag.EventId = new SelectList(db.Events, "Id", "EventName", model.EventId);
+            return View(model);
+        }
 
         // GET: Event/Details/5
         public ActionResult Details(int? id)

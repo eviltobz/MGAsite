@@ -18,7 +18,7 @@ namespace MGAsite.Models
         public int EventTeamEntryId { get; set; }
         public int RiderId { get; set; }
         public int PonyId { get; set; }
-        public Nullable<bool> Paticipated { get; set; }
+        public Nullable<bool> Participated { get; set; }
     
         public virtual Pony Pony { get; set; }
         public virtual Rider Rider { get; set; }
