@@ -63,4 +63,21 @@ namespace MGAsite.Models
         public List<TeamEntryResult> Teams { get; set; }
     }
 
+    public class OrderOfMerit
+    {
+        public SelectList Seasons { get; set; }
+        public Season SelectedSeason { get; set; }
+
+        public int EventCount { get; set; }
+        public string[] Events { get; set; }
+        public IEnumerable<RiderLine> Riders { get; set; }
+
+        public class RiderLine
+        {
+            public string Name { get; set; }
+            public System.Tuple<int?, bool?>[] EventResults { get; set; }
+            public decimal MeanPoints { get; set; }
+        }
+    }
+
 }
