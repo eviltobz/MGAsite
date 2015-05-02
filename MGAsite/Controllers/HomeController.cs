@@ -33,17 +33,18 @@ namespace MGAsite.Controllers
 
                 foreach (var rider in eventRiders)
                 {
-                    var riderLine = riders[rider.Rider.Id];
-                    if (riderLine == null)
+                    if (!riders.ContainsKey(rider.Rider.Id))//  riderLine == null)
                     {
-                        riderLine = new OrderOfMerit.RiderLine();
-                        riderLine.Name = rider.Rider.FullName;
-                        riderLine.EventResults = new Tuple<int?, bool?>[model.EventCount];
+                        riders[rider.Rider.Id] = new OrderOfMerit.RiderLine();
+                        riders[rider.Rider.Id].Name = rider.Rider.FullName;
+                        riders[rider.Rider.Id].EventResults = new Tuple<int?, bool?>[model.EventCount];
                     }
+                    var riderLine = riders[rider.Rider.Id];
                     riderLine.EventResults[i] = new Tuple<int?, bool?>(rider.Points, rider.Participated);
                 }
 
             }
+            model.Riders = riders.Values.OrderBy(r=>r.Name);
 
             return View(model);
         }

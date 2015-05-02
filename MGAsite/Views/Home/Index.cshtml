@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
+<!--
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
@@ -30,6 +30,8 @@
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
+</div>
+-->
 
 @using (Html.BeginForm())
 {
@@ -40,7 +42,43 @@
             <div class="col-md-10">
                 @Html.DropDownList("Season", Model.Seasons, htmlAttributes: new { @class = "form-control" })
             </div>
+                       
+            <div class="col-md-10">
+                <input type="submit" value="Change Season" />
+            </div>
         </div>
 }
-    
+
+<div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Rider</th>
+                @foreach(var meet in Model.Events)
+                {
+                    <th>@meet</th>
+                }
+                <th>Average</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var rider in Model.Riders)
+            {
+                <tr>
+                    <td>@rider.Name</td>
+                    @for(int i =0;i<Model.EventCount;i++)
+                    {
+                        <td>
+                            @rider.EventResults[i].Item1
+                        </td>
+                    }
+                    <td>@rider.MeanPoints</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
 </div>
+
+    
