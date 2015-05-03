@@ -56,9 +56,9 @@ namespace MGAsite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeSeason(int id)
+        public ActionResult Index(int id)
         {
-            return Index(id);
+            return Index(new Nullable<int>(id));
         }
 
         public ActionResult About()

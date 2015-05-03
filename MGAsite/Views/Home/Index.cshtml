@@ -49,7 +49,7 @@
     </div>
 </div>
 -->
-@using (Html.BeginForm("ChangeSeason"))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="row">
@@ -73,7 +73,7 @@
                 <th>Rider</th>
                 @foreach (var meet in Model.Events)
                 {
-                    <th>@meet.Trim()</th>
+                    <th>@meet</th>
                 }
                 <th>Average</th>
             </tr>
@@ -82,20 +82,13 @@
             @foreach (var rider in Model.Riders)
             {
                 <tr>
-                    <td>@rider.Name.Trim()</td>
+                    <td>@rider.Name</td>
                     @for (int i = 0; i < Model.EventCount; i++)
                     {
-                        <td 
-                        @if(!rider.EventResults[i].Item2)
-                        {
-                            @:style="background-color:red"
-                                }
-                                >
-                                @rider.EventResults[i].Item1
-                            </td>
-                            }
-                            <td>@((decimal)rider.TotalPoints/rider.TotalEvents)</td>
-                        </tr>
+                        @(rider.EventResults[i].Item2 ? Html.Raw("<td>") : Html.Raw("<td style=\"background-color:red\">"))@rider.EventResults[i].Item1@Html.Raw("</td>")
+                    }
+                    <td>@((decimal)rider.TotalPoints/rider.TotalEvents)</td>
+                </tr>
             }
     </tbody>
 </table>
