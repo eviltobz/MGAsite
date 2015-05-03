@@ -10,10 +10,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EventName" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="EventName" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="EventDate" Type="date" Nullable="false" />
-          <Property Name="EventType" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="EventPriority" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="EventType" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="EventPriority" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="SeasonID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EventRiderEntry">
@@ -40,8 +40,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PassportID" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="PassportID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DOB" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Rider">
@@ -49,7 +49,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FullName" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="40" Nullable="false" />
           <Property Name="DOB" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Season">
@@ -57,7 +57,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Season" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Season" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
         </EntityType>
@@ -66,7 +66,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeamName" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <Association Name="FK_Event_Season">
           <End Role="Season" Type="Self.Season" Multiplicity="1" />
@@ -215,10 +215,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EventName" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="EventName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EventType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="EventPriority" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="EventType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EventPriority" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="SeasonID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Season" Relationship="MgaModel.FK_Event_Season" FromRole="Event" ToRole="Season" />
           <NavigationProperty Name="EventTeamEntries" Relationship="MgaModel.FK_EventTeamEntry_Event" FromRole="Event" ToRole="EventTeamEntry" />
@@ -241,8 +241,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PassportID" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="PassportID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_Pony" FromRole="Pony" ToRole="EventRiderEntry" />
         </EntityType>
@@ -251,7 +251,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FullName" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
           <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_Rider" FromRole="Rider" ToRole="EventRiderEntry" />
         </EntityType>
@@ -260,7 +260,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SeasonName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SeasonName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Events" Relationship="MgaModel.FK_Event_Season" FromRole="Season" ToRole="Event" />
@@ -270,7 +270,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EventTeamEntries" Relationship="MgaModel.FK_EventTeamEntry_Team" FromRole="Team" ToRole="EventTeamEntry" />
         </EntityType>
         <Association Name="FK_Event_Season">
