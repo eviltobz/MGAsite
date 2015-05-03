@@ -37,16 +37,28 @@ namespace MGAsite.Controllers
                     {
                         riders[rider.Rider.Id] = new OrderOfMerit.RiderLine();
                         riders[rider.Rider.Id].Name = rider.Rider.FullName;
-                        riders[rider.Rider.Id].EventResults = new Tuple<int?, bool?>[model.EventCount];
+                        riders[rider.Rider.Id].EventResults = events.Select(e => new Tuple<int?, bool>(null, true)).ToArray();
                     }
                     var riderLine = riders[rider.Rider.Id];
-                    riderLine.EventResults[i] = new Tuple<int?, bool?>(rider.Points, rider.Participated);
+                    riderLine.EventResults[i] = new Tuple<int?, bool>(rider.Points, rider.Participated??true);
+                    if (rider.Points.HasValue)
+                    {
+                        riderLine.TotalPoints += rider.Points.Value;
+                        riderLine.TotalEvents++;
+                    }
                 }
 
             }
             model.Riders = riders.Values.OrderBy(r=>r.Name);
 
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeSeason(int id)
+        {
+            return Index(id);
         }
 
         public ActionResult About()

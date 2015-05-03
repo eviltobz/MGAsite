@@ -75,8 +75,10 @@ namespace MGAsite.Models
         public class RiderLine
         {
             public string Name { get; set; }
-            public System.Tuple<int?, bool?>[] EventResults { get; set; }
+            public System.Tuple<int?, bool>[] EventResults { get; set; }
             public decimal MeanPoints { get; set; }
+            public int TotalPoints { get; set; }
+            public int TotalEvents { get; set; }
         }
     }
 

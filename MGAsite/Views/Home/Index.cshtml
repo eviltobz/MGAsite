@@ -3,6 +3,23 @@
 @{
     ViewBag.Title = "Home Page";
 }
+@section scripts
+{
+    <link rel="stylesheet" href="~/Content/themes/blue/style.css" type="text/css" media="print, projection, screen">
+    <script src="@Url.Content("~/Scripts/jquery.tablesorter.js")"></script>
+    <script type="text/javascript">
+        /*
+        $(function () {
+            $("#tablesorter-demo").tablesorter({ sortList: [[0, 0], [2, 1]], widgets: ['zebra'] });
+            $("#options").tablesorter({ sortList: [[0, 0]], headers: { 3: { sorter: false }, 4: { sorter: false } } });
+        });
+        */
+        $(document).ready(function () {
+            $("#riders").tablesorter();
+        }
+    );
+    </script>
+}
 <!--
 <div class="jumbotron">
     <h1>ASP.NET</h1>
@@ -32,53 +49,56 @@
     </div>
 </div>
 -->
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("ChangeSeason"))
 {
     @Html.AntiForgeryToken()
-    
+    <div class="row">
         <div class="form-group">
             @Html.LabelFor(model => model.SelectedSeason, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Season", Model.Seasons, htmlAttributes: new { @class = "form-control" })
+            <div class="col-md-4">
+                @Html.DropDownList("Season", Model.Seasons)
+                <input type="submit" value="Change" />
             </div>
-                       
-            <div class="col-md-10">
-                <input type="submit" value="Change Season" />
+
+            <div class="col-md-4">
             </div>
         </div>
+    </div>
 }
 
-<div>
-    <table border="1">
+<div class="row">
+    <table id="riders" class="tablesorter">
         <thead>
             <tr>
                 <th>Rider</th>
-                @foreach(var meet in Model.Events)
+                @foreach (var meet in Model.Events)
                 {
-                    <th>@meet</th>
+                    <th>@meet.Trim()</th>
                 }
                 <th>Average</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var rider in Model.Riders)
+            @foreach (var rider in Model.Riders)
             {
                 <tr>
-                    <td>@rider.Name</td>
-                    @for(int i =0;i<Model.EventCount;i++)
+                    <td>@rider.Name.Trim()</td>
+                    @for (int i = 0; i < Model.EventCount; i++)
                     {
-                        <td>
-                            @rider.EventResults[i].Item1
-                        </td>
-                    }
-                    <td>@rider.MeanPoints</td>
-                </tr>
+                        <td 
+                        @if(!rider.EventResults[i].Item2)
+                        {
+                            @:style="background-color:red"
+                                }
+                                >
+                                @rider.EventResults[i].Item1
+                            </td>
+                            }
+                            <td>@((decimal)rider.TotalPoints/rider.TotalEvents)</td>
+                        </tr>
             }
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
 
 </div>
-
-    
