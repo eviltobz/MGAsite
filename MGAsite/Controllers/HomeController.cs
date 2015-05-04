@@ -11,17 +11,31 @@ namespace MGAsite.Controllers
     {
         private MgaEntities db = new MgaEntities();
 
-        public ActionResult Index(int? id)
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return ShowIndex(null);
+        }
+        private string GetMean(IEnumerable<int> points)
+        {
+            decimal sum = points.Sum();
+            decimal count = points.Count();
+            return decimal.Round(sum / count, 1).ToString();
+        }
+
+        private ActionResult ShowIndex(int? id)
         {
             var model = new OrderOfMerit();
+            Season selectedSeason;
             if (id.HasValue)
-                model.SelectedSeason = db.Seasons.Find(id);
+                selectedSeason = db.Seasons.Find(id);
             else
-                model.SelectedSeason = db.Seasons.First();
+                selectedSeason = db.Seasons.First();
+            model.SelectedSeasonId = selectedSeason.Id;
 
-            model.Seasons = new SelectList(db.Seasons, "Id", "SeasonName", model.SelectedSeason.Id);
+            model.Seasons = new SelectList(db.Seasons, "Id", "SeasonName", selectedSeason.Id);
 
-            var events = model.SelectedSeason.Events.OrderBy(e => e.EventDate);
+            var events = selectedSeason.Events.OrderBy(e => e.EventDate);
             model.Events = events.Select(e => e.EventName).ToArray();
             model.EventCount = model.Events.Length;
 
@@ -40,25 +54,36 @@ namespace MGAsite.Controllers
                         riders[rider.Rider.Id].EventResults = events.Select(e => new Tuple<int?, bool>(null, true)).ToArray();
                     }
                     var riderLine = riders[rider.Rider.Id];
-                    riderLine.EventResults[i] = new Tuple<int?, bool>(rider.Points, rider.Participated??true);
-                    if (rider.Points.HasValue)
-                    {
-                        riderLine.TotalPoints += rider.Points.Value;
-                        riderLine.TotalEvents++;
-                    }
+                    riderLine.EventResults[i] = new Tuple<int?, bool>(rider.Points, rider.Participated ?? true);
                 }
 
             }
-            model.Riders = riders.Values.OrderBy(r=>r.Name);
+            foreach (var entry in riders.Values)
+            {
+                var scores = new List<int>();
+                foreach (var race in entry.EventResults)
+                {
+                    if (race.Item1.HasValue)
+                        scores.Add(race.Item1.Value);
+                }
+                if (scores.Count > 2)
+                {
+                    var subscores = scores.Skip(1).Take(scores.Count - 2);
+                    entry.ExclusiveMeanPoints = GetMean(subscores);
+                }
+                entry.MeanPoints = GetMean(scores);
+            }
+            model.Riders = riders.Values.OrderBy(r => r.Name);
 
             return View(model);
         }
 
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(int id)
+        public ActionResult Index(MGAsite.Models.OrderOfMerit model)
         {
-            return Index(new Nullable<int>(id));
+            return ShowIndex(model.SelectedSeasonId);
         }
 
         public ActionResult About()

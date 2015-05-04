@@ -54,9 +54,9 @@
     @Html.AntiForgeryToken()
     <div class="row">
         <div class="form-group">
-            @Html.LabelFor(model => model.SelectedSeason, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SelectedSeasonId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
-                @Html.DropDownList("Season", Model.Seasons)
+                @Html.DropDownListFor(model=>model.SelectedSeasonId, Model.Seasons)
                 <input type="submit" value="Change" />
             </div>
 
@@ -76,6 +76,7 @@
                     <th>@meet</th>
                 }
                 <th>Average</th>
+                <th>Average<br/>(excluding top &amp; bottom)</th>
             </tr>
         </thead>
         <tbody>
@@ -87,7 +88,8 @@
                     {
                         @(rider.EventResults[i].Item2 ? Html.Raw("<td>") : Html.Raw("<td style=\"background-color:red\">"))@rider.EventResults[i].Item1@Html.Raw("</td>")
                     }
-                    <td>@((decimal)rider.TotalPoints/rider.TotalEvents)</td>
+                    <td>@rider.MeanPoints</td>
+                    <td>@rider.ExclusiveMeanPoints</td>
                 </tr>
             }
     </tbody>

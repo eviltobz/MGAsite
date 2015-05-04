@@ -66,7 +66,7 @@ namespace MGAsite.Models
     public class OrderOfMerit
     {
         public SelectList Seasons { get; set; }
-        public Season SelectedSeason { get; set; }
+        public int SelectedSeasonId { get; set; }
 
         public int EventCount { get; set; }
         public string[] Events { get; set; }
@@ -76,7 +76,8 @@ namespace MGAsite.Models
         {
             public string Name { get; set; }
             public System.Tuple<int?, bool>[] EventResults { get; set; }
-            public decimal MeanPoints { get; set; }
+            public string MeanPoints { get; set; }
+            public string ExclusiveMeanPoints { get; set; }
             public int TotalPoints { get; set; }
             public int TotalEvents { get; set; }
         }
