@@ -49,22 +49,7 @@
     </div>
 </div>
 -->
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="row">
-        <div class="form-group">
-            @Html.LabelFor(model => model.SelectedSeasonId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.DropDownListFor(model=>model.SelectedSeasonId, Model.Seasons)
-                <input type="submit" value="Change" />
-            </div>
 
-            <div class="col-md-4">
-            </div>
-        </div>
-    </div>
-}
 
 <div class="row">
     <table id="riders" class="tablesorter">
@@ -97,3 +82,20 @@
 
 
 </div>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="form-group">
+            <span class = "col-md-2" >Change Season</span>
+            <div class="col-md-2">
+                @Html.DropDownListFor(model=>model.SelectedSeasonId, Model.Seasons)
+                <input type="submit" value="Change" />
+            </div>
+
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+}
