@@ -49,8 +49,15 @@
                 @Model.Teams[i].Rider4Name
             </td>
             <td>
-                @Html.EditorFor(modelItem => Model.Teams[i].Rider5Participated)
-                @Model.Teams[i].Rider5Name
+                @if(Model.Teams[i].Rider5Name != null)
+                { 
+                    @Html.EditorFor(modelItem => Model.Teams[i].Rider5Participated)
+                    @Model.Teams[i].Rider5Name
+                }
+                else
+                {
+                    @:--No Rider--
+                }
             </td>
 
 

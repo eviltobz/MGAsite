@@ -82,7 +82,8 @@
                 <tr>
                     <td>5</td>
                     <td>
-                        @Html.DropDownListFor(model => model.Rider5Id, Model.AvailableRiders, htmlAttributes: new { @class = "form-control" })
+                        @{var noRiders = new SelectList(new[] { new {Id = -1, Label="--No Rider--"}}, "Id", "Label");}
+                        @Html.DropDownListFor(model => model.Rider5Id, noRiders.Concat(Model.AvailableRiders), htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Rider5Id, "", new { @class = "text-danger" })
                     </td>
                     <td>

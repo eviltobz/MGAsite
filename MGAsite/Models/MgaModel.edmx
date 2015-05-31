@@ -40,9 +40,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PassportID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PassportID" Type="nvarchar" MaxLength="20" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="DOB" Type="date" />
         </EntityType>
         <EntityType Name="Rider">
           <Key>
@@ -241,9 +241,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PassportID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PassportID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
           <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_Pony" FromRole="Pony" ToRole="EventRiderEntry" />
         </EntityType>
         <EntityType Name="Rider">

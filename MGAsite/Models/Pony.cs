@@ -22,7 +22,7 @@ namespace MGAsite.Models
         public int Id { get; set; }
         public string PassportID { get; set; }
         public string Name { get; set; }
-        public System.DateTime DOB { get; set; }
+        public Nullable<System.DateTime> DOB { get; set; }
     
         public virtual ICollection<EventRiderEntry> EventRiderEntries { get; set; }
     }

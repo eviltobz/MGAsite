@@ -34,10 +34,10 @@ namespace MGAsite.Controllers
             {
                 return HttpNotFound();
             }
-            var teamEntries = db.EventTeamEntries.Where(x => x.EventId == model.Event.Id);
+            var teamEntries = db.EventTeamEntries.Where(x => x.EventId == model.Event.Id).OrderBy(t=>t.Team.TeamName);
             model.ParticipatingTeams = teamEntries.ToList();
             //model.ParticipatingTeams = participatingTeamEntries.Select(pt => pt.Team).ToList();
-            model.OtherTeams = db.Teams.Where(t=>!teamEntries.Any(pt => pt.TeamId == t.Id)).ToList();
+            model.OtherTeams = db.Teams.Where(t=>!teamEntries.Any(pt => pt.TeamId == t.Id)).OrderBy(t=>t.TeamName).ToList();
             //model.ParticipatingTeams = db.Teams.ToList();
             //model.OtherTeams = db.Teams.ToList();
             return View(model);
@@ -51,15 +51,16 @@ namespace MGAsite.Controllers
             model.Event = db.Events.Find(eventId);
             model.Team = db.Teams.Find(teamId);
 
-            var participants = model.Event.EventTeamEntries.SelectMany(e => e.EventRiderEntries).ToList();
+            //var participants = model.Event.EventTeamEntries.SelectMany(e => e.EventRiderEntries).ToList();
 
             //var availableRiders = db.Riders.Where(r => !participants.Any(p => r.Id == p.RiderId)).Select(x=>new {Id = x.Id, Label=x.FullName});
             //var availableRiders = db.Riders.Except(participants.Select(p=>p.Rider)).Select(x=>new {Id = x.Id, Label=x.FullName});
             //var availablePonies = db.Ponies.Where(x => !participants.Any(p => x.Id == p.PonyId)).Select(x => new { Id = x.Id, Label = x.Name });
 
             //var teamEntries = db.EventTeamEntries.Select(x => new { Id = x.Id, Label = x.Event.EventName + "/" + x.Team.TeamName });
-            var availableRiders = db.Riders.Select(x => new { Id = x.Id, Label = x.FullName });
-            var availablePonies = db.Ponies.Select(x => new { Id = x.Id, Label = x.Name });
+            var availableRiders = db.Riders.Select(x => new { Id = x.Id, Label = x.FullName }).OrderBy(r=>r.Label);
+            var availablePonies = db.Ponies.Select(x => new { Id = x.Id, Label = x.Name }).OrderBy(p=>p.Label);
+            //var noRider = new[] { new { Id = -1, Label = "--No Rider--" } };
             model.AvailableRiders = new SelectList(availableRiders, "Id", "Label");
             model.AvailablePonies = new SelectList(availablePonies, "Id", "Label");
 
@@ -81,8 +82,12 @@ namespace MGAsite.Controllers
                 var r2 = new EventRiderEntry() { EventTeamEntry = teamEntry, RiderId = model.Rider2Id.Value, PonyId = model.Pony2Id.Value };
                 var r3 = new EventRiderEntry() { EventTeamEntry = teamEntry, RiderId = model.Rider3Id.Value, PonyId = model.Pony3Id.Value };
                 var r4 = new EventRiderEntry() { EventTeamEntry = teamEntry, RiderId = model.Rider4Id.Value, PonyId = model.Pony4Id.Value };
-                var r5 = new EventRiderEntry() { EventTeamEntry = teamEntry, RiderId = model.Rider5Id.Value, PonyId = model.Pony5Id.Value };
-                db.EventRiderEntries.AddRange(new EventRiderEntry[] { r1, r2, r3, r4, r5 });
+                db.EventRiderEntries.AddRange(new EventRiderEntry[] { r1, r2, r3, r4 });
+                if (model.Rider5Id > 0)
+                {
+                    var r5 = new EventRiderEntry() { EventTeamEntry = teamEntry, RiderId = model.Rider5Id.Value, PonyId = model.Pony5Id.Value };
+                    db.EventRiderEntries.Add(r5);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Participants", new { id = model.EventId });
             }
@@ -119,8 +124,11 @@ namespace MGAsite.Controllers
                 line.Rider3Name = riders.ElementAtOrDefault(2).Rider.FullName;
                 line.Rider4Participated = riders.ElementAtOrDefault(3).Participated.GetValueOrDefault(true);
                 line.Rider4Name = riders.ElementAtOrDefault(3).Rider.FullName;
-                line.Rider5Participated = riders.ElementAtOrDefault(4).Participated.GetValueOrDefault(true);
-                line.Rider5Name = riders.ElementAtOrDefault(4).Rider.FullName;
+                if (riders.Count() == 5)
+                {
+                    line.Rider5Participated = riders.ElementAtOrDefault(4).Participated.GetValueOrDefault(true);
+                    line.Rider5Name = riders.ElementAtOrDefault(4).Rider.FullName;
+                }
                 model.Teams.Add(line);
             }
 
@@ -141,7 +149,8 @@ namespace MGAsite.Controllers
                     riders.ElementAt(1).Participated = line.Rider2Participated;
                     riders.ElementAt(2).Participated = line.Rider3Participated;
                     riders.ElementAt(3).Participated = line.Rider4Participated;
-                    riders.ElementAt(4).Participated = line.Rider5Participated;
+                    if(riders.Count() == 5)
+                        riders.ElementAt(4).Participated = line.Rider5Participated;
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");

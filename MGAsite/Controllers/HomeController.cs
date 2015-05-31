@@ -35,8 +35,8 @@ namespace MGAsite.Controllers
 
             model.Seasons = new SelectList(db.Seasons, "Id", "SeasonName", selectedSeason.Id);
 
-            var events = selectedSeason.Events.OrderBy(e => e.EventDate);
-            model.Events = events.Select(e => e.EventName).ToArray();
+            var events = db.Events.Include("EventTeamEntries.EventRiderEntries.Rider").Where(e=>e.SeasonID == selectedSeason.Id).OrderBy(e => e.EventDate).ToArray();
+            model.Events = events.OrderBy(e=>e.EventDate).Select(e => e.EventName).ToArray();
             model.EventCount = model.Events.Length;
 
             var riders = new Dictionary<int, OrderOfMerit.RiderLine>();
