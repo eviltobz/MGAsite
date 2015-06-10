@@ -37,16 +37,37 @@
                 @Model.Teams[i].Rider1Name
             </td>
             <td>
+                @if(Model.Teams[i].Rider2Name != null)
+                { 
                 @Html.EditorFor(modelItem => Model.Teams[i].Rider2Participated)
                 @Model.Teams[i].Rider2Name
+                }
+                else
+                {
+                    @:--No Rider--
+                }
             </td>
             <td>
+                @if(Model.Teams[i].Rider3Name != null)
+                { 
                 @Html.EditorFor(modelItem => Model.Teams[i].Rider3Participated)
                 @Model.Teams[i].Rider3Name
+                }
+                else
+                {
+                    @:--No Rider--
+                }
             </td>
             <td>
+                @if(Model.Teams[i].Rider4Name != null)
+                { 
                 @Html.EditorFor(modelItem => Model.Teams[i].Rider4Participated)
                 @Model.Teams[i].Rider4Name
+                }
+                else
+                {
+                    @:--No Rider--
+                }
             </td>
             <td>
                 @if(Model.Teams[i].Rider5Name != null)
