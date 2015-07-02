@@ -12,21 +12,16 @@ namespace MGAsite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EventTeamEntry
+    public partial class EventType
     {
-        public EventTeamEntry()
+        public EventType()
         {
-            this.EventRiderEntries = new HashSet<EventRiderEntry>();
+            this.Events = new HashSet<Event>();
         }
     
         public int Id { get; set; }
-        public int TeamId { get; set; }
-        public int EventId { get; set; }
-        public Nullable<int> Points { get; set; }
-        public bool Under17s { get; set; }
+        public string Type { get; set; }
     
-        public virtual ICollection<EventRiderEntry> EventRiderEntries { get; set; }
-        public virtual Team Team { get; set; }
-        public virtual Event Event { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
     }
 }

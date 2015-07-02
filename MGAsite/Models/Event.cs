@@ -25,8 +25,10 @@ namespace MGAsite.Models
         public string EventType { get; set; }
         public string EventPriority { get; set; }
         public int SeasonID { get; set; }
+        public int EventTypeId { get; set; }
     
         public virtual Season Season { get; set; }
         public virtual ICollection<EventTeamEntry> EventTeamEntries { get; set; }
+        public virtual EventType EventType1 { get; set; }
     }
 }

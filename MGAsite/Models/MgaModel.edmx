@@ -15,6 +15,7 @@
           <Property Name="EventType" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="EventPriority" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="SeasonID" Type="int" Nullable="false" />
+          <Property Name="EventTypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EventRiderEntry">
           <Key>
@@ -34,6 +35,14 @@
           <Property Name="TeamId" Type="int" Nullable="false" />
           <Property Name="EventId" Type="int" Nullable="false" />
           <Property Name="Points" Type="int" />
+          <Property Name="Under17s" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Pony">
           <Key>
@@ -68,6 +77,18 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TeamName" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Event_Event">
+          <End Role="EventType" Type="Self.EventType" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Event_Season">
           <End Role="Season" Type="Self.Season" Multiplicity="1" />
           <End Role="Event" Type="Self.Event" Multiplicity="*" />
@@ -144,10 +165,15 @@
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventRiderEntry" EntityType="Self.EventRiderEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventTeamEntry" EntityType="Self.EventTeamEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pony" EntityType="Self.Pony" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rider" EntityType="Self.Rider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Season" EntityType="Self.Season" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Event_Event" Association="Self.FK_Event_Event">
+            <End Role="EventType" EntitySet="EventType" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
           <AssociationSet Name="FK_Event_Season" Association="Self.FK_Event_Season">
             <End Role="Season" EntitySet="Season" />
             <End Role="Event" EntitySet="Event" />
@@ -209,6 +235,11 @@
             <End Role="Event" EntitySet="Events" />
             <End Role="EventTeamEntry" EntitySet="EventTeamEntries" />
           </AssociationSet>
+          <EntitySet Name="EventTypes" EntityType="MgaModel.EventType" />
+          <AssociationSet Name="FK_Event_Event" Association="MgaModel.FK_Event_Event">
+            <End Role="EventType" EntitySet="EventTypes" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Event">
           <Key>
@@ -222,6 +253,8 @@
           <Property Name="SeasonID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Season" Relationship="MgaModel.FK_Event_Season" FromRole="Event" ToRole="Season" />
           <NavigationProperty Name="EventTeamEntries" Relationship="MgaModel.FK_EventTeamEntry_Event" FromRole="Event" ToRole="EventTeamEntry" />
+          <Property Name="EventTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EventType1" Relationship="MgaModel.FK_Event_Event" FromRole="Event" ToRole="EventType" />
         </EntityType>
         <EntityType Name="EventRiderEntry">
           <Key>
@@ -320,6 +353,7 @@
           <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_EventTeamEntry" FromRole="EventTeamEntry" ToRole="EventRiderEntry" />
           <NavigationProperty Name="Team" Relationship="MgaModel.FK_EventTeamEntry_Team" FromRole="EventTeamEntry" ToRole="Team" />
           <NavigationProperty Name="Event" Relationship="MgaModel.FK_EventTeamEntry_Event" FromRole="EventTeamEntry" ToRole="Event" />
+          <Property Name="Under17s" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_EventRiderEntry_EventTeamEntry">
           <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="1" />
@@ -357,6 +391,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Events" Relationship="MgaModel.FK_Event_Event" FromRole="EventType" ToRole="Event" />
+        </EntityType>
+        <Association Name="FK_Event_Event">
+          <End Type="MgaModel.EventType" Role="EventType" Multiplicity="1" />
+          <End Type="MgaModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -366,6 +420,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="MgaModel.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
                 <ScalarProperty Name="SeasonID" ColumnName="SeasonID" />
                 <ScalarProperty Name="EventPriority" ColumnName="EventPriority" />
                 <ScalarProperty Name="EventType" ColumnName="EventType" />
@@ -426,9 +481,18 @@
           <EntitySetMapping Name="EventTeamEntries">
             <EntityTypeMapping TypeName="MgaModel.EventTeamEntry">
               <MappingFragment StoreEntitySet="EventTeamEntry">
+                <ScalarProperty Name="Under17s" ColumnName="Under17s" />
                 <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="EventId" ColumnName="EventId" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTypes">
+            <EntityTypeMapping TypeName="MgaModel.EventType">
+              <MappingFragment StoreEntitySet="EventType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

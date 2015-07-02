@@ -185,6 +185,9 @@
     <Compile Include="Models\EventTeamEntry.cs">
       <DependentUpon>MgaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EventType.cs">
+      <DependentUpon>MgaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
