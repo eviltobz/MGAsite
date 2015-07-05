@@ -206,6 +206,7 @@ namespace MGAsite.Controllers
         public ActionResult Create()
         {
             ViewBag.SeasonID = new SelectList(db.Seasons, "Id", "SeasonName");
+            ViewBag.EventTypeID = new SelectList(db.EventTypes, "Id", "Type");
             return View();
         }
 
@@ -214,7 +215,7 @@ namespace MGAsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,EventName,EventDate,EventType,EventPriority,SeasonID")] Event @event)
+        public ActionResult Create([Bind(Include = "Id,EventName,EventDate,EventTypeId,EventType,EventPriority,SeasonID")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -224,6 +225,7 @@ namespace MGAsite.Controllers
             }
 
             ViewBag.SeasonID = new SelectList(db.Seasons, "Id", "SeasonName", @event.SeasonID);
+            ViewBag.EventTypeID = new SelectList(db.EventTypes, "Id", "Type", @event.EventTypeId);
             return View(@event);
         }
 
@@ -240,6 +242,7 @@ namespace MGAsite.Controllers
                 return HttpNotFound();
             }
             ViewBag.SeasonID = new SelectList(db.Seasons, "Id", "SeasonName", @event.SeasonID);
+            ViewBag.EventTypeID = new SelectList(db.EventTypes, "Id", "Type", @event.EventTypeId);
             return View(@event);
         }
 
@@ -248,7 +251,7 @@ namespace MGAsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,EventName,EventDate,EventType,EventPriority,SeasonID")] Event @event)
+        public ActionResult Edit([Bind(Include = "Id,EventName,EventDate,EventTypeId,EventType,EventPriority,SeasonID")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -257,6 +260,7 @@ namespace MGAsite.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.SeasonID = new SelectList(db.Seasons, "Id", "SeasonName", @event.SeasonID);
+            ViewBag.EventTypeID = new SelectList(db.EventTypes, "Id", "Type", @event.EventTypeId);
             return View(@event);
         }
 
