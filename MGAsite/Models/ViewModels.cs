@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-
+using System;
 using System.Web.Mvc;
 
 namespace MGAsite.Models
@@ -11,7 +11,7 @@ namespace MGAsite.Models
     {
         public Event Event { get; set; }
         public IList<EventTeamEntry> ParticipatingTeams { get; set; }
-        public IList<Team> OtherTeams { get; set; }
+        public IList<Tuple<Team, bool, bool>> OtherTeams { get; set; }
     }
 
     public class ParticipatingTeam
@@ -20,6 +20,7 @@ namespace MGAsite.Models
         public Team Team { get; set; }
         public int EventId { get; set; }
         public int TeamId { get; set; }
+        public bool Under17s { get; set; }
 
 
         public SelectList AvailableRiders { get; set; }

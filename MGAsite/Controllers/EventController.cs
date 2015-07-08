@@ -34,22 +34,30 @@ namespace MGAsite.Controllers
             {
                 return HttpNotFound();
             }
-            var teamEntries = db.EventTeamEntries.Where(x => x.EventId == model.Event.Id).OrderBy(t=>t.Team.TeamName);
+            var teamEntries = db.EventTeamEntries.Where(x => x.EventId == model.Event.Id).OrderBy(t=>t.Team.TeamName).ThenBy(t=>t.Under17s);
             model.ParticipatingTeams = teamEntries.ToList();
-            //model.ParticipatingTeams = participatingTeamEntries.Select(pt => pt.Team).ToList();
-            model.OtherTeams = db.Teams.Where(t=>!teamEntries.Any(pt => pt.TeamId == t.Id)).OrderBy(t=>t.TeamName).ToList();
-            //model.ParticipatingTeams = db.Teams.ToList();
-            //model.OtherTeams = db.Teams.ToList();
+            model.OtherTeams = new List<Tuple<Team, bool, bool>>();
+            //var otherTeams = db.Teams.ToList().Select(t => new {team = t, open = true, under17s = true}); //.ToList();
+            foreach (var team in db.Teams.ToList())
+            {
+                var under17s = !model.ParticipatingTeams.Any(pt => pt.TeamId == team.Id && pt.Under17s);
+                var open = !model.ParticipatingTeams.Any(pt => pt.TeamId == team.Id && !pt.Under17s);
+
+                if (under17s || open)
+                    model.OtherTeams.Add(Tuple.Create(team, under17s, open));
+            }
+            //model.OtherTeams = otherTeams.Where(t => t.Item2 || t.Item3).ToList();
             return View(model);
         }
 
 
         // GET: EventTeamEntry/Add
-        public ActionResult AddTeam(int eventId, int teamId)
+        public ActionResult AddTeam(int eventId, int teamId, bool under17s = false)
         {
             var model = new ParticipatingTeam();
             model.Event = db.Events.Find(eventId);
             model.Team = db.Teams.Find(teamId);
+            model.Under17s = under17s;
 
             //var participants = model.Event.EventTeamEntries.SelectMany(e => e.EventRiderEntries).ToList();
 
@@ -71,11 +79,11 @@ namespace MGAsite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTeam([Bind(Include = "Id,TeamId,EventId,Rider1Id,Pony1Id,Rider2Id,Pony2Id,Rider3Id,Pony3Id,Rider4Id,Pony4Id,Rider5Id,Pony5Id")] ParticipatingTeam model)
+        public ActionResult AddTeam([Bind(Include = "Id,TeamId,EventId,Under17s,Rider1Id,Pony1Id,Rider2Id,Pony2Id,Rider3Id,Pony3Id,Rider4Id,Pony4Id,Rider5Id,Pony5Id")] ParticipatingTeam model)
         {
             if (ModelState.IsValid)
             {
-                var teamEntry = new EventTeamEntry() { EventId = model.EventId, TeamId = model.TeamId };
+                var teamEntry = new EventTeamEntry() { EventId = model.EventId, TeamId = model.TeamId, Under17s = model.Under17s };
                 db.EventTeamEntries.Add(teamEntry);
                 db.SaveChanges();
                 var r1 = new EventRiderEntry() { EventTeamEntry = teamEntry, RiderId = model.Rider1Id.Value, PonyId = model.Pony1Id.Value };
