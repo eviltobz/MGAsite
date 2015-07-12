@@ -17,7 +17,7 @@ namespace MGAsite.Controllers
         // GET: Pony
         public ActionResult Index()
         {
-            return View(db.Ponies.ToList());
+            return View(db.Ponies.OrderBy(p=>p.Name).ToList());
         }
 
         // GET: Pony/Details/5

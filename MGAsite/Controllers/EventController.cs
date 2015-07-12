@@ -38,7 +38,7 @@ namespace MGAsite.Controllers
             model.ParticipatingTeams = teamEntries.ToList();
             model.OtherTeams = new List<Tuple<Team, bool, bool>>();
             //var otherTeams = db.Teams.ToList().Select(t => new {team = t, open = true, under17s = true}); //.ToList();
-            foreach (var team in db.Teams.ToList())
+            foreach (var team in db.Teams.OrderBy(t=>t.TeamName).ToList())
             {
                 var under17s = !model.ParticipatingTeams.Any(pt => pt.TeamId == team.Id && pt.Under17s);
                 var open = !model.ParticipatingTeams.Any(pt => pt.TeamId == team.Id && !pt.Under17s);
@@ -133,6 +133,7 @@ namespace MGAsite.Controllers
                 var line = new TeamEntryResult();
                 line.EventTeamEntryId = entry.Id;
                 line.TeamName = entry.Team.TeamName;
+                line.EntryCategory = entry.Under17s ? "Under 17s" : "Open";
                 line.Points = entry.Points.GetValueOrDefault();
                 
                 var riders = entry.EventRiderEntries.OrderBy(er => er.Id);

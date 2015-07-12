@@ -46,6 +46,7 @@ namespace MGAsite.Models
     {
         public int EventTeamEntryId { get; set; }
         public string TeamName { get; set; }
+        public string EntryCategory { get; set; }
         public int Points { get; set; }
         public string Rider1Name { get; set; }
         public bool Rider1Participated { get; set; }

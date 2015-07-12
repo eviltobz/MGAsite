@@ -17,7 +17,7 @@ namespace MGAsite.Controllers
         // GET: Season
         public ActionResult Index()
         {
-            return View(db.Seasons.ToList());
+            return View(db.Seasons.OrderBy(s=>s.StartDate).ToList());
         }
 
         // GET: Season/Details/5

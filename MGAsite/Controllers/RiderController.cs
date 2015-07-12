@@ -17,7 +17,7 @@ namespace MGAsite.Controllers
         // GET: Rider
         public ActionResult Index()
         {
-            return View(db.Riders.ToList());
+            return View(db.Riders.OrderBy(r=>r.FullName).ToList());
         }
 
         // GET: Rider/Details/5

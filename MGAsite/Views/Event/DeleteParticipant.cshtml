@@ -14,15 +14,20 @@
         <dt>
             @Html.DisplayNameFor(model => model.Team.TeamName)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Team.TeamName)
         </dd>
 
         <dt>
+            Category
+        </dt>
+        <dd>
+            @(Model.Under17s ? "Under 17s" : "Open")
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Event.EventName)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Event.EventName)
         </dd>

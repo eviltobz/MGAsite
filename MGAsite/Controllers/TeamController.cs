@@ -17,7 +17,7 @@ namespace MGAsite.Controllers
         // GET: Team
         public ActionResult Index()
         {
-            return View(db.Teams.ToList());
+            return View(db.Teams.OrderBy(t=>t.TeamName).ToList());
         }
 
         // GET: Team/Details/5
