@@ -14,7 +14,7 @@ namespace MGAsite.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return ShowIndex(null);
+            return ShowIndex(null, false);
         }
         private string GetMean(IEnumerable<int> points)
         {
@@ -23,9 +23,10 @@ namespace MGAsite.Controllers
             return decimal.Round(sum / count, 1).ToString();
         }
 
-        private ActionResult ShowIndex(int? id)
+        private ActionResult ShowIndex(int? id, bool under17s)
         {
             var model = new OrderOfMerit();
+            model.Under17s = under17s;
             Season selectedSeason;
             if (id.HasValue)
                 selectedSeason = db.Seasons.Find(id);
@@ -43,7 +44,8 @@ namespace MGAsite.Controllers
             for (int i = 0; i < model.EventCount; i++)
             {
                 var race = events.ElementAt(i);
-                var eventRiders = race.EventTeamEntries.SelectMany(e => e.EventRiderEntries.Select(r => new { Points = e.Points, Rider = r.Rider, Participated = r.Participated }));
+                var eventRiders = race.EventTeamEntries.Where(e=>e.Under17s == under17s).SelectMany(e => 
+                    e.EventRiderEntries.Select(r => new { Points = e.Points, Rider = r.Rider, Participated = r.Participated }));
 
                 foreach (var rider in eventRiders)
                 {
@@ -83,7 +85,7 @@ namespace MGAsite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(MGAsite.Models.OrderOfMerit model)
         {
-            return ShowIndex(model.SelectedSeasonId);
+            return ShowIndex(model.SelectedSeasonId, model.Under17s);
         }
 
         public ActionResult About()

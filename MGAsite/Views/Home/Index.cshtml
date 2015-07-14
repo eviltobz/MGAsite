@@ -55,13 +55,13 @@
     <table id="riders" class="tablesorter">
         <thead>
             <tr>
-                <th>Rider</th>
+                <th><div style="padding-right:15px; padding-left:0px">Rider</div></th>
                 @foreach (var meet in Model.Events)
                 {
-                    <th>@meet</th>
+                    <th><div style="padding-right:15px; padding-left:0px">@meet</div></th>
                 }
-                <th>Average &nbsp; &nbsp;</th>
-                <th>Average<br/>(excluding top &amp; bottom)</th>
+                <th><div style="padding-right:15px; padding-left:0px">Average</div></th>
+                <th><div style="padding-right:15px; padding-left:0px">Average<br/>(excluding top &amp; bottom)</div></th>
             </tr>
         </thead>
         <tbody>
@@ -91,6 +91,12 @@
             <span class = "col-md-2" >Change Season</span>
             <div class="col-md-2">
                 @Html.DropDownListFor(model=>model.SelectedSeasonId, Model.Seasons)
+
+                <select name="Under17s" id="Under17s" >
+                    <option selected="selected" value="false">Open</option>
+                    <option value="true">Under 17s</option>
+                </select>
+
                 <input type="submit" value="Change" />
             </div>
 
