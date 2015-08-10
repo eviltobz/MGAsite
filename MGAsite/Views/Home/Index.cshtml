@@ -50,6 +50,35 @@
 </div>
 -->
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="form-group">
+            <span class = "col-md-2" >Filter Results</span>
+            <div class="col-md-2">
+                @Html.DropDownListFor(model=>model.SelectedSeasonId, Model.Seasons)
+
+                <select name="Under17s" id="Under17s" >
+                    <option @(!Model.Under17s ? "selected=\"selected\"" : "") selected="selected" value="false">Open</option>
+                    <option  @(Model.Under17s ? "selected=\"selected\"" : "") value="true">Under 17s</option>
+                </select>
+
+                <select name="ShowAll" id="ShowAll" >
+                    <option @(!Model.ShowAll ? "selected=\"selected\"" : "") value="false">Order of Merit</option>
+                    <option @(Model.ShowAll ? "selected=\"selected\"" : "") value="true">All Entrants</option>
+                </select>
+
+                <input type="submit" value="Change" />
+            </div>
+
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+}
+
+<hr />
 
 <div class="row">
     <table id="riders" class="tablesorter">
@@ -82,26 +111,3 @@
 
 
 </div>
-<hr />
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="row">
-        <div class="form-group">
-            <span class = "col-md-2" >Change Season</span>
-            <div class="col-md-2">
-                @Html.DropDownListFor(model=>model.SelectedSeasonId, Model.Seasons)
-
-                <select name="Under17s" id="Under17s" >
-                    <option selected="selected" value="false">Open</option>
-                    <option value="true">Under 17s</option>
-                </select>
-
-                <input type="submit" value="Change" />
-            </div>
-
-            <div class="col-md-2">
-            </div>
-        </div>
-    </div>
-}

@@ -70,6 +70,7 @@ namespace MGAsite.Models
         public SelectList Seasons { get; set; }
         public int SelectedSeasonId { get; set; }
         public bool Under17s { get; set; }
+        public bool ShowAll { get; set; }
 
         public int EventCount { get; set; }
         public string[] Events { get; set; }

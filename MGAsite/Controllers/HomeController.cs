@@ -14,7 +14,7 @@ namespace MGAsite.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return ShowIndex(null, false);
+            return ShowIndex(null, false, false);
         }
         private string GetMean(IEnumerable<int> points)
         {
@@ -23,10 +23,11 @@ namespace MGAsite.Controllers
             return decimal.Round(sum / count, 1).ToString();
         }
 
-        private ActionResult ShowIndex(int? id, bool under17s)
+        private ActionResult ShowIndex(int? id, bool under17s, bool showAll)
         {
             var model = new OrderOfMerit();
             model.Under17s = under17s;
+            model.ShowAll = showAll;
             Season selectedSeason;
             if (id.HasValue)
                 selectedSeason = db.Seasons.Find(id);
@@ -75,9 +76,22 @@ namespace MGAsite.Controllers
                 }
                 entry.MeanPoints = GetMean(scores);
             }
-            model.Riders = riders.Values.OrderBy(r => r.Name);
+
+            int a =events.Where(e=>e.EventTeamEntries.Any(ete=>ete.Points != null)).Count();
+            if (a > 3 && !showAll)
+                minimumEvents = a / 2;
+            else
+                minimumEvents = 0;
+
+
+            model.Riders = riders.Values.Where(RiderQualifies).OrderBy(r => r.Name);
 
             return View(model);
+        }
+        private int minimumEvents = 0;
+        private bool RiderQualifies(OrderOfMerit.RiderLine arg)
+        {
+            return arg.EventResults.Count(e => e.Item1 != null) >= minimumEvents;
         }
 
         
@@ -85,7 +99,7 @@ namespace MGAsite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(MGAsite.Models.OrderOfMerit model)
         {
-            return ShowIndex(model.SelectedSeasonId, model.Under17s);
+            return ShowIndex(model.SelectedSeasonId, model.Under17s, model.ShowAll);
         }
 
         public ActionResult About()
