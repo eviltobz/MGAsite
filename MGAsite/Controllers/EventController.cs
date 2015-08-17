@@ -34,6 +34,8 @@ namespace MGAsite.Controllers
             {
                 return HttpNotFound();
             }
+            model.EventType = model.Event.EventType1.Type;
+
             var teamEntries = db.EventTeamEntries.Where(x => x.EventId == model.Event.Id).OrderBy(t=>t.Team.TeamName).ThenBy(t=>t.Under17s);
             model.ParticipatingTeams = teamEntries.ToList();
             model.OtherTeams = new List<Tuple<Team, bool, bool>>();
@@ -58,6 +60,7 @@ namespace MGAsite.Controllers
             model.Event = db.Events.Find(eventId);
             model.Team = db.Teams.Find(teamId);
             model.Under17s = under17s;
+            model.EventType = model.Event.EventType1.Type;
 
             //var participants = model.Event.EventTeamEntries.SelectMany(e => e.EventRiderEntries).ToList();
 
@@ -127,6 +130,7 @@ namespace MGAsite.Controllers
             var model = new EventResults();
             model.Teams= new List<TeamEntryResult>();
             var e = db.Events.Find(id);
+            model.EventType = e.EventType1.Type;
             
             foreach(var entry in e.EventTeamEntries.OrderBy(te=>te.Team.TeamName))
             {

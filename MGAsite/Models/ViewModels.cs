@@ -7,9 +7,17 @@ using System.Web.Mvc;
 
 namespace MGAsite.Models
 {
+    public class Lookup
+    {
+        public const string Team = "Team";
+        public const string Pairs = "Pairs";
+        public const string Individuals = "Individuals";
+    }
+
     public class EventParticipantsViewModel
     {
         public Event Event { get; set; }
+        public string EventType { get; set; }
         public IList<EventTeamEntry> ParticipatingTeams { get; set; }
         public IList<Tuple<Team, bool, bool>> OtherTeams { get; set; }
     }
@@ -22,6 +30,7 @@ namespace MGAsite.Models
         public int TeamId { get; set; }
         public bool Under17s { get; set; }
 
+        public string EventType { get; set; }
 
         public SelectList AvailableRiders { get; set; }
         public SelectList AvailablePonies { get; set; }
@@ -40,6 +49,7 @@ namespace MGAsite.Models
 
         public int? Rider5Id { get; set; }
         public int? Pony5Id { get; set; }
+
     }
     
     public class TeamEntryResult
@@ -62,6 +72,7 @@ namespace MGAsite.Models
     public class EventResults
     {
         public Event Event { get; set; }
+        public string EventType { get; set; }
         public List<TeamEntryResult> Teams { get; set; }
     }
 

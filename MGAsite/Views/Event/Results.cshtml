@@ -17,10 +17,16 @@
                 <th>Team</th>
                 <th></th>
                 <th>Rider 1</th>
-                <th>Rider 2</th>
-                <th>Rider 3</th>
-                <th>Rider 4</th>
-                <th>Rider 5</th>
+                @if(Model.EventType != MGAsite.Models.Lookup.Individuals)
+                { 
+                    <th>Rider 2</th>
+                    if(Model.EventType == MGAsite.Models.Lookup.Team)
+                    { 
+                        <th>Rider 3</th>
+                        <th>Rider 4</th>
+                        <th>Rider 5</th>
+                    }
+                }
                 <th>Score</th>
             </tr>
         </thead>
@@ -43,51 +49,57 @@
                 @Html.EditorFor(modelItem => Model.Teams[i].Rider1Participated)
                 @Model.Teams[i].Rider1Name
             </td>
-            <td>
-                @if(Model.Teams[i].Rider2Name != null)
-                { 
-                @Html.EditorFor(modelItem => Model.Teams[i].Rider2Participated)
-                @Model.Teams[i].Rider2Name
-                }
-                else
-                {
-                    @:--No Rider--
-                }
-            </td>
-            <td>
-                @if(Model.Teams[i].Rider3Name != null)
-                { 
-                @Html.EditorFor(modelItem => Model.Teams[i].Rider3Participated)
-                @Model.Teams[i].Rider3Name
-                }
-                else
-                {
-                    @:--No Rider--
-                }
-            </td>
-            <td>
-                @if(Model.Teams[i].Rider4Name != null)
-                { 
-                @Html.EditorFor(modelItem => Model.Teams[i].Rider4Participated)
-                @Model.Teams[i].Rider4Name
-                }
-                else
-                {
-                    @:--No Rider--
-                }
-            </td>
-            <td>
-                @if(Model.Teams[i].Rider5Name != null)
-                { 
-                    @Html.EditorFor(modelItem => Model.Teams[i].Rider5Participated)
-                    @Model.Teams[i].Rider5Name
-                }
-                else
-                {
-                    @:--No Rider--
-                }
-            </td>
 
+            @if(Model.EventType != MGAsite.Models.Lookup.Individuals)
+            { 
+                <td>
+                    @if(Model.Teams[i].Rider2Name != null)
+                    { 
+                    @Html.EditorFor(modelItem => Model.Teams[i].Rider2Participated)
+                    @Model.Teams[i].Rider2Name
+                    }
+                    else
+                    {
+                        @:--No Rider--
+                    }
+                </td>
+                if(Model.EventType == MGAsite.Models.Lookup.Team)
+                { 
+                    <td>
+                        @if(Model.Teams[i].Rider3Name != null)
+                        { 
+                        @Html.EditorFor(modelItem => Model.Teams[i].Rider3Participated)
+                        @Model.Teams[i].Rider3Name
+                        }
+                        else
+                        {
+                            @:--No Rider--
+                        }
+                    </td>
+                    <td>
+                        @if(Model.Teams[i].Rider4Name != null)
+                        { 
+                        @Html.EditorFor(modelItem => Model.Teams[i].Rider4Participated)
+                        @Model.Teams[i].Rider4Name
+                        }
+                        else
+                        {
+                            @:--No Rider--
+                        }
+                    </td>
+                    <td>
+                        @if(Model.Teams[i].Rider5Name != null)
+                        { 
+                            @Html.EditorFor(modelItem => Model.Teams[i].Rider5Participated)
+                            @Model.Teams[i].Rider5Name
+                        }
+                        else
+                        {
+                            @:--No Rider--
+                        }
+                    </td>
+                }
+            }
 
             <td>
                 <div class="col-md-10">

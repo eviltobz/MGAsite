@@ -54,6 +54,8 @@
 </div>
 @if (Model.ParticipatingTeams.Any())
 {
+    var riderCount = 1;
+    
     <hr />
     <h3>Participating Teams</h3>
     <table cellpadding="5">
@@ -62,10 +64,18 @@
                 <th>Team</th>
                 <th></th>
                 <th>Rider 1</th>
-                <th>Rider 2</th>
-                <th>Rider 3</th>
-                <th>Rider 4</th>
-                <th>Rider 5</th>
+                @if(Model.EventType != MGAsite.Models.Lookup.Individuals)
+                { 
+                    riderCount = 2;
+                    <th>Rider 2</th>
+                    if(Model.EventType == MGAsite.Models.Lookup.Team)
+                    { 
+                        riderCount = 5;
+                        <th>Rider 3</th>
+                        <th>Rider 4</th>
+                        <th>Rider 5</th>
+                    }
+                }
             </tr>
         </thead>
         @foreach (var item in Model.ParticipatingTeams)
@@ -92,7 +102,8 @@
                         @Html.DisplayFor(modelEntrant => entrant.Pony.Name)
                     </td>
                 }
-                @for (int i = 0; i < (5 - item.EventRiderEntries.Count()); i++)
+                
+                @for (int i = 0; i < (riderCount - item.EventRiderEntries.Count()); i++)
                 {
                     <td>N/A</td>
                 }

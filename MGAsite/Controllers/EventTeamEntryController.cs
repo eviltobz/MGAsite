@@ -42,6 +42,7 @@ namespace MGAsite.Controllers
             var model = new ParticipatingTeam();
             model.Event = db.Events.Find(eventId);
             model.Team = db.Teams.Find(teamId);
+            model.EventType = model.Event.EventType1.Type;
 
             var participants = model.Event.EventTeamEntries.SelectMany(e => e.EventRiderEntries).ToList();
 
