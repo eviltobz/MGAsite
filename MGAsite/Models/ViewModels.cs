@@ -27,7 +27,7 @@ namespace MGAsite.Models
         public Event Event { get; set; }
         public Team Team { get; set; }
         public int EventId { get; set; }
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
         public bool Under17s { get; set; }
 
         public string EventType { get; set; }

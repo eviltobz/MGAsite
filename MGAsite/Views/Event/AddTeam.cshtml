@@ -12,7 +12,16 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>@(Model.Team.TeamName) in @(Model.Event.EventName) @(Model.Under17s ? "Under 17s" : "Open") </h4>
+        <h4>
+        @if (Model.Team == null)
+        {
+            @:Independent Entrant
+        }
+        else
+        {
+            @(Model.Team.TeamName) 
+        }
+        in @(Model.Event.EventName) @(Model.Under17s ? "Under 17s" : "Open") </h4>
         <hr />
         <table cellpadding="3">
             <thead>

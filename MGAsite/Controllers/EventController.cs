@@ -54,14 +54,15 @@ namespace MGAsite.Controllers
 
 
         // GET: EventTeamEntry/Add
-        public ActionResult AddTeam(int eventId, int teamId, bool under17s = false)
+        public ActionResult AddTeam(int eventId, int? teamId, bool under17s = false)
         {
             var model = new ParticipatingTeam();
             model.Event = db.Events.Find(eventId);
-            model.Team = db.Teams.Find(teamId);
             model.Under17s = under17s;
             model.EventType = model.Event.EventType1.Type;
 
+            if(teamId != null)
+                model.Team = db.Teams.Find(teamId);
             //var participants = model.Event.EventTeamEntries.SelectMany(e => e.EventRiderEntries).ToList();
 
             //var availableRiders = db.Riders.Where(r => !participants.Any(p => r.Id == p.RiderId)).Select(x=>new {Id = x.Id, Label=x.FullName});
@@ -132,11 +133,11 @@ namespace MGAsite.Controllers
             var e = db.Events.Find(id);
             model.EventType = e.EventType1.Type;
             
-            foreach(var entry in e.EventTeamEntries.OrderBy(te=>te.Team.TeamName))
+            foreach(var entry in e.EventTeamEntries.OrderBy(te=>te.Team==null?"":te.Team.TeamName))
             {
                 var line = new TeamEntryResult();
                 line.EventTeamEntryId = entry.Id;
-                line.TeamName = entry.Team.TeamName;
+                line.TeamName = entry.Team==null?"Independent Entrant": entry.Team.TeamName;
                 line.EntryCategory = entry.Under17s ? "Under 17s" : "Open";
                 line.Points = entry.Points.GetValueOrDefault();
                 

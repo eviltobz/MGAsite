@@ -20,7 +20,7 @@ namespace MGAsite.Models
         }
     
         public int Id { get; set; }
-        public int TeamId { get; set; }
+        public Nullable<int> TeamId { get; set; }
         public int EventId { get; set; }
         public Nullable<int> Points { get; set; }
         public bool Under17s { get; set; }

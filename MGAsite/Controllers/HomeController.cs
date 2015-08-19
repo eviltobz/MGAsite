@@ -20,6 +20,8 @@ namespace MGAsite.Controllers
         {
             decimal sum = points.Sum();
             decimal count = points.Count();
+            if (count == 0)
+                return "N/A";
             return decimal.Round(sum / count, 1).ToString();
         }
 

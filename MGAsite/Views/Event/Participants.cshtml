@@ -115,6 +115,20 @@
         }
     </table>
 }
+
+<hr />
+<h3>Add Independent Entrants</h3>
+<table cellpadding="5">
+    <tr>
+        <td>
+            @Html.ActionLink("Add Under 17s", "AddTeam", new { eventId = Model.Event.Id, under17s = true })
+        </td>
+        <td>
+            @Html.ActionLink("Add Open", "AddTeam", new { eventId = Model.Event.Id, under17s = false })
+        </td>
+    </tr>
+</table>
+
 @if (Model.OtherTeams.Any())
 {
     <hr />

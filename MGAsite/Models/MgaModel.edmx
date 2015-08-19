@@ -32,7 +32,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" />
           <Property Name="EventId" Type="int" Nullable="false" />
           <Property Name="Points" Type="int" />
           <Property Name="Under17s" Type="bit" Nullable="false" />
@@ -150,7 +150,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EventTeamEntry_Team">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
           <End Role="EventTeamEntry" Type="Self.EventTeamEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
@@ -347,7 +347,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" />
           <Property Name="EventId" Type="Int32" Nullable="false" />
           <Property Name="Points" Type="Int32" />
           <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_EventTeamEntry" FromRole="EventTeamEntry" ToRole="EventRiderEntry" />
@@ -368,7 +368,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EventTeamEntry_Team">
-          <End Type="MgaModel.Team" Role="Team" Multiplicity="1" />
+          <End Type="MgaModel.Team" Role="Team" Multiplicity="0..1" />
           <End Type="MgaModel.EventTeamEntry" Role="EventTeamEntry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
