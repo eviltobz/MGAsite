@@ -33,5 +33,6 @@ namespace MGAsite.Models
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<EventTeamEntry> EventTeamEntries { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
+        public virtual DbSet<Nationality> Nationalities { get; set; }
     }
 }

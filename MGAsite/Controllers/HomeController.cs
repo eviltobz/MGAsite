@@ -43,6 +43,16 @@ namespace MGAsite.Controllers
             model.Events = events.OrderBy(e=>e.EventDate).Select(e => e.EventName).ToArray();
             model.EventCount = model.Events.Length;
 
+            //var seasonEvents = db.Events.Where(e => e.SeasonID == selectedSeason.Id);
+            var completedEvents = events.Where(e => e.EventTeamEntries.Any(te => te.Points != null));
+            if (showAll)
+                minimumEvents = 0;
+            else
+                minimumEvents = completedEvents.Count() - 1;
+            var eventCount = events.Count();
+            var completedCount = completedEvents.Count();
+            var seasonCompleted = (eventCount == completedCount);
+
             var riders = new Dictionary<int, OrderOfMerit.RiderLine>();
             for (int i = 0; i < model.EventCount; i++)
             {
@@ -56,6 +66,7 @@ namespace MGAsite.Controllers
                     {
                         riders[rider.Rider.Id] = new OrderOfMerit.RiderLine();
                         riders[rider.Rider.Id].Name = rider.Rider.FullName;
+                        riders[rider.Rider.Id].Nationality = rider.Rider.Nationality.Name;
                         riders[rider.Rider.Id].EventResults = events.Select(e => new Tuple<int?, bool>(null, true)).ToArray();
                     }
                     var riderLine = riders[rider.Rider.Id];
@@ -66,24 +77,29 @@ namespace MGAsite.Controllers
             foreach (var entry in riders.Values)
             {
                 var scores = new List<int>();
+                var competedInAll = true;
                 foreach (var race in entry.EventResults)
                 {
                     if (race.Item1.HasValue)
                         scores.Add(race.Item1.Value);
+                    else
+                        competedInAll = false;
                 }
-                if (scores.Count > 2)
+                if (seasonCompleted && competedInAll)
                 {
-                    var subscores = scores.Skip(1).Take(scores.Count - 2);
+                    var subscores = scores.OrderBy(s=>s).Skip(1); //.Take(scores.Count - 2);
                     entry.ExclusiveMeanPoints = GetMean(subscores);
                 }
                 entry.MeanPoints = GetMean(scores);
             }
 
+            /*
             int a =events.Where(e=>e.EventTeamEntries.Any(ete=>ete.Points != null)).Count();
             if (a > 3 && !showAll)
                 minimumEvents = a / 2;
             else
                 minimumEvents = 0;
+            */
 
 
             model.Riders = riders.Values.Where(RiderQualifies).OrderBy(r => r.Name);

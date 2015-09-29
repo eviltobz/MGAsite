@@ -12,19 +12,16 @@ namespace MGAsite.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Rider
+    public partial class Nationality
     {
-        public Rider()
+        public Nationality()
         {
-            this.EventRiderEntries = new HashSet<EventRiderEntry>();
+            this.Riders = new HashSet<Rider>();
         }
     
         public int Id { get; set; }
-        public string FullName { get; set; }
-        public System.DateTime DOB { get; set; }
-        public int NationalityId { get; set; }
+        public string Name { get; set; }
     
-        public virtual ICollection<EventRiderEntry> EventRiderEntries { get; set; }
-        public virtual Nationality Nationality { get; set; }
+        public virtual ICollection<Rider> Riders { get; set; }
     }
 }

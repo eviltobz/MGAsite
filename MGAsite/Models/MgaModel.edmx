@@ -44,6 +44,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Nationality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Pony">
           <Key>
             <PropertyRef Name="Id" />
@@ -60,6 +67,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="40" Nullable="false" />
           <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="NationalityId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Season">
           <Key>
@@ -161,11 +169,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Rider_Nationality">
+          <End Role="Nationality" Type="Self.Nationality" Multiplicity="1" />
+          <End Role="Rider" Type="Self.Rider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rider">
+              <PropertyRef Name="NationalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MgaModelStoreContainer">
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventRiderEntry" EntityType="Self.EventRiderEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventTeamEntry" EntityType="Self.EventTeamEntry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pony" EntityType="Self.Pony" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rider" EntityType="Self.Rider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Season" EntityType="Self.Season" Schema="dbo" store:Type="Tables" />
@@ -197,6 +218,10 @@
           <AssociationSet Name="FK_EventTeamEntry_Team" Association="Self.FK_EventTeamEntry_Team">
             <End Role="Team" EntitySet="Team" />
             <End Role="EventTeamEntry" EntitySet="EventTeamEntry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rider_Nationality" Association="Self.FK_Rider_Nationality">
+            <End Role="Nationality" EntitySet="Nationality" />
+            <End Role="Rider" EntitySet="Rider" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -239,6 +264,11 @@
           <AssociationSet Name="FK_Event_Event" Association="MgaModel.FK_Event_Event">
             <End Role="EventType" EntitySet="EventTypes" />
             <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <EntitySet Name="Nationalities" EntityType="MgaModel.Nationality" />
+          <AssociationSet Name="FK_Rider_Nationality" Association="MgaModel.FK_Rider_Nationality">
+            <End Role="Nationality" EntitySet="Nationalities" />
+            <End Role="Rider" EntitySet="Riders" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Event">
@@ -287,6 +317,8 @@
           <Property Name="FullName" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
           <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="EventRiderEntries" Relationship="MgaModel.FK_EventRiderEntry_Rider" FromRole="Rider" ToRole="EventRiderEntry" />
+          <Property Name="NationalityId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Nationality" Relationship="MgaModel.FK_Rider_Nationality" FromRole="Rider" ToRole="Nationality" />
         </EntityType>
         <EntityType Name="Season">
           <Key>
@@ -411,6 +443,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Nationality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Riders" Relationship="MgaModel.FK_Rider_Nationality" FromRole="Nationality" ToRole="Rider" />
+        </EntityType>
+        <Association Name="FK_Rider_Nationality">
+          <End Type="MgaModel.Nationality" Role="Nationality" Multiplicity="1" />
+          <End Type="MgaModel.Rider" Role="Rider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rider">
+              <PropertyRef Name="NationalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -454,6 +506,7 @@
           <EntitySetMapping Name="Riders">
             <EntityTypeMapping TypeName="MgaModel.Rider">
               <MappingFragment StoreEntitySet="Rider">
+                <ScalarProperty Name="NationalityId" ColumnName="NationalityId" />
                 <ScalarProperty Name="DOB" ColumnName="DOB" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -493,6 +546,14 @@
             <EntityTypeMapping TypeName="MgaModel.EventType">
               <MappingFragment StoreEntitySet="EventType">
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nationalities">
+            <EntityTypeMapping TypeName="MgaModel.Nationality">
+              <MappingFragment StoreEntitySet="Nationality">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

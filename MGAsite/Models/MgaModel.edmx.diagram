@@ -21,6 +21,8 @@
         <AssociationConnector Association="MgaModel.FK_EventTeamEntry_Event" />
         <EntityTypeShape EntityType="MgaModel.EventType" Width="1.5" PointX="0.75" PointY="4.875" />
         <AssociationConnector Association="MgaModel.FK_Event_Event" />
+        <EntityTypeShape EntityType="MgaModel.Nationality" Width="1.5" PointX="7.875" PointY="4.5" />
+        <AssociationConnector Association="MgaModel.FK_Rider_Nationality" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -38,6 +38,7 @@ namespace MGAsite.Controllers
         // GET: Rider/Create
         public ActionResult Create()
         {
+            ViewBag.NationalityId = new SelectList(db.Nationalities, "Id", "Name"); //, rider.NationalityId);
             return View();
         }
 
@@ -46,7 +47,7 @@ namespace MGAsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FullName,DOB")] Rider rider)
+        public ActionResult Create([Bind(Include = "Id,FullName,DOB,NationalityId")] Rider rider)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +71,7 @@ namespace MGAsite.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.NationalityId = new SelectList(db.Nationalities, "Id", "Name", rider.NationalityId);
             return View(rider);
         }
 
@@ -78,7 +80,7 @@ namespace MGAsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FullName,DOB")] Rider rider)
+        public ActionResult Edit([Bind(Include = "Id,FullName,DOB,NationalityId")] Rider rider)
         {
             if (ModelState.IsValid)
             {

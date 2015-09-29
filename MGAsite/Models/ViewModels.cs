@@ -90,6 +90,7 @@ namespace MGAsite.Models
         public class RiderLine
         {
             public string Name { get; set; }
+            public string Nationality { get; set; }
             public System.Tuple<int?, bool>[] EventResults { get; set; }
             public string MeanPoints { get; set; }
             public string ExclusiveMeanPoints { get; set; }
