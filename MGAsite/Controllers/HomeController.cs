@@ -85,12 +85,14 @@ namespace MGAsite.Controllers
                     else
                         competedInAll = false;
                 }
-                if (seasonCompleted && competedInAll)
-                {
-                    var subscores = scores.OrderBy(s=>s).Skip(1); //.Take(scores.Count - 2);
-                    entry.ExclusiveMeanPoints = GetMean(subscores);
-                }
                 entry.MeanPoints = GetMean(scores);
+                if (completedCount > 1 && competedInAll)
+                {
+                        var subscores = scores.OrderByDescending(s => s).Take(completedCount - 1);
+                        entry.ExclusiveMeanPoints = GetMean(subscores);
+                }
+                else
+                    entry.ExclusiveMeanPoints = entry.MeanPoints;
             }
 
             /*
