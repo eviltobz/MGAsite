@@ -10,7 +10,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+        @Html.HiddenFor(model => model.Id)
+
     <div class="form-horizontal">
         <h4>Event</h4>
         <hr />
@@ -71,7 +72,34 @@
             </div>
         </div>
     </div>
+
 }
+
+@*@using (Html.BeginForm("CopyPrevious", "Event"))
+{
+    @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        if(ViewBag.PreviousEvents == null)
+        { 
+            <div>This event has been populated, can't copy an old event</div>
+        }
+        else
+        { 
+            <div class="form-group">
+                @Html.Label("Copy Previous Event" , htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PreviousEvents", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Copy" class="btn btn-default" />
+                </div>
+            </div>
+        }
+}*@
 
 <div>
     @Html.ActionLink("Back to List", "Index")

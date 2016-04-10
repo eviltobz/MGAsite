@@ -49,6 +49,12 @@ namespace MGAsite.Controllers
                     model.OtherTeams.Add(Tuple.Create(team, under17s, open));
             }
             //model.OtherTeams = otherTeams.Where(t => t.Item2 || t.Item3).ToList();
+
+            if(!model.Event.EventTeamEntries.Any())
+            {
+                var similarEvents = db.Events.Where(e => e.EventTypeId == model.Event.EventTypeId && e.Id != model.Event.Id && e.EventTeamEntries.Count > 0);
+                ViewBag.PreviousEventId = new SelectList(similarEvents, "Id", "EventName");
+            }
             return View(model);
         }
 
@@ -255,9 +261,44 @@ namespace MGAsite.Controllers
             {
                 return HttpNotFound();
             }
+            var type = @event.EventTypeId;
             ViewBag.SeasonID = new SelectList(db.Seasons, "Id", "SeasonName", @event.SeasonID);
-            ViewBag.EventTypeID = new SelectList(db.EventTypes, "Id", "Type", @event.EventTypeId);
+            ViewBag.EventTypeID = new SelectList(db.EventTypes, "Id", "Type", type);
+            //if(!@event.EventTeamEntries.Any())
+            //{
+            //    var similarEvents = db.Events.Where(e => e.EventTypeId == type && e.Id != @event.Id && e.EventTeamEntries.Count > 0);
+            //    ViewBag.PreviousEvents = new SelectList(similarEvents, "Id", "EventName");
+            //}
             return View(@event);
+        }
+
+        [HttpPost, ActionName("CopyPrevious")]
+        [ValidateAntiForgeryToken]
+        public ActionResult CopyPrevious(int Id, int PreviousEventId)
+        {
+            Event thisEvent = db.Events.Find(Id);
+            Event previousEvent = db.Events.Include("EventTeamEntries.EventRiderEntries").First(e => e.Id == PreviousEventId);
+            var POS = 1;
+            foreach(var previousEntry in previousEvent.EventTeamEntries)
+            {
+                System.Diagnostics.Debug.Print("Entry " + (POS++) + " of " + previousEvent.EventTeamEntries.Count); 
+                var newEntry = new EventTeamEntry();
+                thisEvent.EventTeamEntries.Add(newEntry);
+                //newEntry.Event = thisEvent;
+                newEntry.TeamId = previousEntry.TeamId;
+                newEntry.Under17s = previousEntry.Under17s;
+                newEntry.EventRiderEntries = new List<EventRiderEntry>();
+                foreach(var previousRider in previousEntry.EventRiderEntries)
+                {
+                    var newRider = new EventRiderEntry();
+                    newEntry.EventRiderEntries.Add(newRider);
+                    newRider.PonyId = previousRider.PonyId;
+                    newRider.RiderId = previousRider.RiderId;
+                }
+            }
+            //db.Events.Remove(@event);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // POST: Event/Edit/5
