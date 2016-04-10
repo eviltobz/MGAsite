@@ -22,7 +22,6 @@ namespace MGAsite.Models
         public int Id { get; set; }
         public string EventName { get; set; }
         public System.DateTime EventDate { get; set; }
-        public string EventType { get; set; }
         public string EventPriority { get; set; }
         public int SeasonID { get; set; }
         public int EventTypeId { get; set; }
